@@ -1,4 +1,4 @@
-CREATE TABLE 'answers' (
+CREATE TABLE 'Answer' (
   hacker_id integer,
   question_id integer,
   answer text NOT NULL,

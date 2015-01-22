@@ -1,4 +1,4 @@
-CREATE TABLE 'questions' (
+CREATE TABLE 'question' (
   id serial PRIMARY KEY,
-  question varchar(255) NOT NULL,
+  question varchar(255) NOT NULL
 );

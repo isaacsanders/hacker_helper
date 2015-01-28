@@ -1,4 +1,8 @@
-CREATE TABLE Hacker (
-  id serial PRIMARY KEY,
-  email varchar(100) NOT NULL UNIQUE
+CREATE TABLE hacker
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    email VARCHAR(30) DEFAULT NULL NOT NULL,
+    location VARCHAR(30) DEFAULT NULL NOT NULL,
+    fb_oauth_access_token VARCHAR(60) DEFAULT NULL NOT NULL
 );
+CREATE UNIQUE INDEX unique_email ON hacker (email);

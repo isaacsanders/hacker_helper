@@ -1,4 +1,5 @@
-CREATE TABLE Question (
-  id serial PRIMARY KEY,
-  question text NOT NULL
+CREATE TABLE question
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    question VARCHAR NOT NULL
 );

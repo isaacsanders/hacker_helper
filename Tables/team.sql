@@ -1,4 +1,5 @@
-CREATE TABLE Team (
-  id serial PRIMARY KEY,
-  name varchar(255)
+CREATE TABLE team
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255)
 );

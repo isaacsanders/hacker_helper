@@ -2,3 +2,4 @@
 website/.idea
 website/.idea/*
 *.iml
+website/Config.py

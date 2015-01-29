@@ -2,7 +2,7 @@
 -- (I assume this is GET /me), either login this person or create a new 
 -- hacker in Hacker table
 CREATE FUNCTION login_hacker(hacker jsonb)
-	RETURNS type AS --??
+	RETURNS type AS
 DECLARE fb_oauth_access_token text;
 DECLARE hacker_email text;
 DECLARE fullName text; -- add to schema

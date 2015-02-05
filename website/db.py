@@ -15,3 +15,9 @@ def get_hacker(id):
         }
     else:
         return None
+
+def get_friends(id):
+    cur = conn.cursor()
+    cur.callproc("get_friends", (id,))
+    for friend in cur:
+        print friend

@@ -1,8 +1,10 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
 
-from db import conn
+from db import conn, get_hacker
 from util import process_hackathon_data
+
+from facebook import GraphAPI
 
 app = Flask(__name__)
 
@@ -26,7 +28,6 @@ facebook = oauth.remote_app('facebook',
                             consumer_secret=FACEBOOK_APP_SECRET,
                             request_token_params={'scope': 'email'}
 )
-
 
 @app.route('/')
 def index():
@@ -88,7 +89,9 @@ def import_hackathons():
 
 @app.route("/user/<user_id>", methods=["GET"])
 def user_page(user_id):
-    user = get_user(user_id)
+    user = get_hacker(user_id)
+    friends = get_friends(user_id)
+    return render_template("user_profile.html", user=user, friends=friends)
 
 
 if __name__ == '__main__':

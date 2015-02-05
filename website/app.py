@@ -8,7 +8,6 @@ import logging
 
 app = Flask(__name__)
 
-app.debug = True
 
 
 import Config
@@ -47,6 +46,10 @@ def login():
                                                next=request.args.get('next') or request.referrer or None,
                                                _external=True))
 
+@app.route("/location")
+def location():
+    return render_template("location_entry.html")
+
 @app.route("/info")
 def info():
     me = facebook.get('/me')
@@ -63,16 +66,15 @@ def facebook_authorized(resp):
         )
     session['oauth_token'] = (resp['access_token'], '')
     me = facebook.get('/me')
-    print "ABOUT TO EXECUTE"
-
-    conn = psycopg2.connect(database="hacker", user="dax", password="daxiscool")
+    print "Adding user to database"
+    print [me.data["email"],"earth",me.data["id"],]
     cur = conn.cursor()
-
-    cur.execute("SELECT * FROM register_hacker(%s,%s,%s)", [me.data["email"],"earth",me.data["id"],])
+    cur.execute("SELECT * FROM register_hacker(%s,%s,%s,%s)", [me.data["email"],None,me.data["id"],"dax"])
     for record in cur:
         print record
     cur.close()
     conn.commit()
+    print "Done executing"
     return redirect(url_for('info'))
 
 
@@ -81,4 +83,4 @@ def get_facebook_oauth_token():
     return session.get('oauth_token')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=Config.get_port(), threaded=True)
+    app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)

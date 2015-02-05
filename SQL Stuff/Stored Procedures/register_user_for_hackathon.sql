@@ -4,7 +4,7 @@ AS
 $BODY$
 begin
       INSERT INTO hackathons_user_is_attending(hackathon_id, hacker_id)
-      VALUES(_hackathon_id, _hacker_id);
+      VALUES(_hackathon_id, _hacker_id);/**/
 end
 $BODY$
 LANGUAGE plpgsql VOLATILE;

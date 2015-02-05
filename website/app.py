@@ -10,6 +10,7 @@ app = Flask(__name__)
 
 
 
+
 import Config
 secret = Config.return_secrets()
 SECRET_KEY = secret["SECRET_KEY"]
@@ -38,12 +39,28 @@ facebook = oauth.remote_app('facebook',
 def index():
     return render_template("index.html")
 
+@app.route("/submit_location", methods=["POST"])
+def submit_location():
+    j = request.get_json()
+    cur = conn.cursor()
+    #route, street_number, state, city, zipcode, country
+    me = facebook.get('/me')
+    for k in j.keys():
+        if j[k]=="Null":
+            j[k]=None
+    cur.execute("SELECT * FROM add_location_hacker(%s,%s,%s,%s,%s,%s,%s)", [me.data["id"], j["route"],j["street_number"],j["administrative_area_level_1"],j["locality"],j["postal_code"],j["country"]])
+    for record in cur:
+        print record
+    cur.close()
+    conn.commit()
+    return "success"
 
 @app.route('/login')
 def login():
     return facebook.authorize(callback=url_for('facebook_authorized',
                                                next=request.args.get('next') or request.referrer or None,
                                                _external=True))
+
 
 @app.route("/location")
 def location():
@@ -54,6 +71,11 @@ def info():
     me = facebook.get('/me')
     print me.data
     return me.data['name']+" and what we are storing "+me.data["id"]
+
+@app.route("")
+def get_distances():
+    return 0
+
 
 @app.route('/login/authorized')
 @facebook.authorized_handler

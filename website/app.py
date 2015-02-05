@@ -1,14 +1,12 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
 
-import psycopg2
-import psycopg2.extensions
-import logging
-
+from db import conn
+from util import process_hackathon_data
 
 app = Flask(__name__)
 
-
+process_hackathon_data()
 
 import Config
 secret = Config.return_secrets()
@@ -16,7 +14,7 @@ SECRET_KEY = secret["SECRET_KEY"]
 FACEBOOK_APP_ID = secret["FACEBOOK_APP_ID"]
 FACEBOOK_APP_SECRET = secret["FACEBOOK_APP_SECRET"]
 
-conn = psycopg2.connect(database="hacker", user="dax", password="daxiscool")
+cur = conn.cursor()
 
 app = Flask(__name__)
 
@@ -83,3 +81,4 @@ def get_facebook_oauth_token():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)
+

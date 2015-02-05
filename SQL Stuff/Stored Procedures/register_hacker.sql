@@ -1,7 +1,8 @@
-CREATE OR REPLACE FUNCTION register_hacker(_email VARCHAR(30), _location VARCHAR(30), _fb_oauth_token VARCHAR(60))
-  RETURNS INTEGER AS
-$RETVAL$
-declare
+CREATE OR REPLACE FUNCTION public.register_hacker(_email varchar, _fb_oauth_token varchar, _name varchar)
+  RETURNS int4
+AS
+$BODY$
+  declare
     retval integer;
 begin
   if exists(select 1 from hacker where hacker.email = _email)
@@ -9,12 +10,11 @@ begin
       retval = 1;
       return retval;
     ELSE
-      INSERT INTO hacker (email, location, fb_oauth_access_token)
-      VALUES (_email, _location, _fb_oauth_access_token);
+      INSERT INTO hacker (email , fb_oauth_access_token, name)
+      VALUES (_email, _fb_oauth_access_token, _name);
       retval = 0;
       return retval;
     END IF;
 end
-$RETVAL$
-LANGUAGE plpgsql VOLATILE
-COST 100;
+$BODY$
+LANGUAGE plpgsql VOLATILE;

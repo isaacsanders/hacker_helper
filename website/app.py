@@ -17,7 +17,6 @@ FACEBOOK_APP_ID = secret["FACEBOOK_APP_ID"]
 FACEBOOK_APP_SECRET = secret["FACEBOOK_APP_SECRET"]
 
 conn = psycopg2.connect(database="hacker", user="dax", password="daxiscool")
-cur = conn.cursor()
 
 app = Flask(__name__)
 
@@ -67,9 +66,9 @@ def facebook_authorized(resp):
     session['oauth_token'] = (resp['access_token'], '')
     me = facebook.get('/me')
     print "Adding user to database"
-    print [me.data["email"],"earth",me.data["id"],]
+    import time
     cur = conn.cursor()
-    cur.execute("SELECT * FROM register_hacker(%s,%s,%s,%s)", [me.data["email"],None,me.data["id"],"dax"])
+    cur.execute("SELECT * FROM register_hacker(%s,%s,%s)", [str(me.data["email"]),str(me.data["id"]),str(me.data["name"]),])
     for record in cur:
         print record
     cur.close()

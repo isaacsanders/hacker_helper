@@ -85,6 +85,12 @@ def import_hackathons():
     process_hackathon_data(csvfile)
     return render_template("import_hackathons.html")
 
+
+@app.route("/user/<user_id>", methods=["GET"])
+def user_page(user_id):
+    user = get_user(user_id)
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)
 

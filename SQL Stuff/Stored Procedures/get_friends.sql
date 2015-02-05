@@ -1,5 +1,7 @@
+DROP FUNCTION get_friends(int);
+
 CREATE OR REPLACE FUNCTION public.get_friends(_id int)
-  RETURNS table(id int, email varchar(30), location varchar(30))
+  RETURNS table(id int, email varchar(30), location int)
 AS
 $$
 begin

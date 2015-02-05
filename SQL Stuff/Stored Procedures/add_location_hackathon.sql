@@ -1,5 +1,5 @@
-CREATE OR REPLACE FUNCTION public.add_location_hacker(_street_address VARCHAR, _state VARCHAR, _city VARCHAR,
-                                                      _zipcode        VARCHAR, _country VARCHAR)
+CREATE OR REPLACE FUNCTION public.add_location_hacker( _street_address VARCHAR, _state VARCHAR, _city VARCHAR,
+                                                       _zipcode        VARCHAR, _country VARCHAR )
   RETURNS INT4
 AS
   $$

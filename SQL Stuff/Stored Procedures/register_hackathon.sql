@@ -1,6 +1,6 @@
-CREATE OR REPLACE FUNCTION public.register_hackathon(_name            VARCHAR, _logo_url VARCHAR,
-                                                     _cover_image_url VARCHAR, _location VARCHAR, _start_date DATE,
-                                                     _end_date        DATE, _instruction_path VARCHAR)
+CREATE OR REPLACE FUNCTION public.register_hackathon( _name            VARCHAR, _logo_url VARCHAR,
+                                                      _cover_image_url VARCHAR, _location VARCHAR, _start_date DATE,
+                                                      _end_date        DATE, _instruction_path VARCHAR )
   RETURNS INT4
 AS
   $BODY$

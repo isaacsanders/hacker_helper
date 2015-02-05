@@ -1,6 +1,6 @@
-CREATE OR REPLACE FUNCTION public.add_location_hacker(_hacker_id VARCHAR(100), _route VARCHAR, _street_number VARCHAR,
-                                                      _state     VARCHAR, _city VARCHAR, _zipcode INT4,
-                                                      _country   VARCHAR)
+CREATE OR REPLACE FUNCTION public.add_location_hacker( _hacker_id VARCHAR(100), _route VARCHAR, _street_number VARCHAR,
+                                                       _state     VARCHAR, _city VARCHAR, _zipcode INT4,
+                                                       _country   VARCHAR )
   RETURNS INT4
 AS
   $$

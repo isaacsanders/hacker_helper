@@ -1,6 +1,6 @@
 DROP FUNCTION get_my_location( INTEGER );
 
-CREATE OR REPLACE FUNCTION public.get_my_location(_hacker_id INT4)
+CREATE OR REPLACE FUNCTION public.get_my_location( _hacker_id INT4 )
   RETURNS TABLE(
   loc_id INT
   , state VARCHAR(30)
@@ -28,4 +28,4 @@ AS
 LANGUAGE plpgsql VOLATILE;
 
 SELECT *
-FROM get_my_location(2);
+FROM get_my_location (2);

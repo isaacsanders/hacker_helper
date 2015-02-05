@@ -1,6 +1,6 @@
 DROP FUNCTION get_friends_hackathons( INT );
 
-CREATE OR REPLACE FUNCTION public.get_friends_hackathons(_id INT)
+CREATE OR REPLACE FUNCTION public.get_friends_hackathons( _id INT )
   RETURNS TABLE(friend_id INT, hackathon_id INT)
 AS
   $$
@@ -21,4 +21,4 @@ LANGUAGE plpgsql VOLATILE;
 
 -- testing code
 SELECT *
-FROM get_friends_hackathons(2);
+FROM get_friends_hackathons (2);

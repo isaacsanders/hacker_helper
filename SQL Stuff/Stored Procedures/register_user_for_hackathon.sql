@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.register_user_for_hackathon(_hackathon_id INT, _hacker_id INT)
+CREATE OR REPLACE FUNCTION public.register_user_for_hackathon( _hackathon_id INT, _hacker_id INT )
   RETURNS VOID
 AS
   $BODY$

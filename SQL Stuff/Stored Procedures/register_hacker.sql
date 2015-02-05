@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.register_hacker(_email VARCHAR, _fb_oauth_token VARCHAR, _name VARCHAR)
+CREATE OR REPLACE FUNCTION public.register_hacker( _email VARCHAR, _fb_oauth_token VARCHAR, _name VARCHAR )
   RETURNS INT4
 AS
   $BODY$

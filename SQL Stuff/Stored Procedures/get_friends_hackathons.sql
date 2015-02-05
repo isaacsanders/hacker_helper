@@ -1,18 +1,24 @@
-drop function get_friends_hackathons(int);
-CREATE OR REPLACE FUNCTION public.get_friends_hackathons(_id int)
-  RETURNS table(friend_id int, hackathon_id int)
+DROP FUNCTION get_friends_hackathons( INT );
+
+CREATE OR REPLACE FUNCTION public.get_friends_hackathons(_id INT)
+  RETURNS TABLE(friend_id INT, hackathon_id INT)
 AS
-$$
-begin
-  return QUERY
-  (select hackathons_user_is_attending.hacker_id, hackathon.id
-   FROM hackathon, hackathons_user_is_attending
-   WHERE hackathon.id = hackathons_user_is_attending.hackathon_id
-         and exists(select id from get_friends(_id) where hackathons_user_is_attending.hacker_id = id));
-end
-$$
+  $$
+  BEGIN
+    RETURN QUERY
+    (SELECT
+       hackathons_user_is_attending.hacker_id,
+       hackathon.id
+     FROM hackathon, hackathons_user_is_attending
+     WHERE hackathon.id = hackathons_user_is_attending.hackathon_id
+           AND exists(SELECT id
+                      FROM get_friends(_id)
+                      WHERE hackathons_user_is_attending.hacker_id = id));
+  END
+  $$
 LANGUAGE plpgsql VOLATILE;
 
 
 -- testing code
-select * from get_friends_hackathons(2);
+SELECT *
+FROM get_friends_hackathons(2);

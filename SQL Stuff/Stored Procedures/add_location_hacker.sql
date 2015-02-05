@@ -8,8 +8,9 @@ begin
   INSERT INTO public.locations (street_address, state, city, zipcode,country)
   VALUES (_street_address, _state, _city, _zipcode,_country)
   RETURNING location_id INTO iid;
-
-  return iid;
+  UPDATE hacker SET 'location'=iid
+  WHERE id="_hacker_id";
+  return 1;
 end;
 $BODY$
 LANGUAGE plpgsql VOLATILE;

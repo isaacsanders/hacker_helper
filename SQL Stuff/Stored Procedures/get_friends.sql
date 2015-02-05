@@ -25,10 +25,5 @@ LANGUAGE plpgsql VOLATILE;
 
 -- testing code
 
-SELECT first_hacker_id
-  , second_hacker_id
-FROM friendship
-UNION SELECT second_hacker_id AS sid
-        ,    first_hacker_id  AS fid
-      FROM friendship
-ORDER BY first_hacker_id, second_hacker_id;
+SELECT *
+FROM get_friends (5);

@@ -11,7 +11,7 @@ begin
       return retval;
     ELSE
       INSERT INTO hacker (email , fb_oauth_access_token, name)
-      VALUES (_email, _fb_oauth_access_token, _name);
+      VALUES (_email, _fb_oauth_token, _name);
       retval = 0;
       return retval;
     END IF;

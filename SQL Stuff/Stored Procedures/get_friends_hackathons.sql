@@ -4,10 +4,10 @@ AS
 $$
 begin
   return QUERY
-  (select hacker.id as friend_id, hackathon.id as hackathon_id
+  (select hacker.id, hackathon.id
    FROM hackathon, hackathons_user_is_attending
    WHERE hackathon.id = hackathons_user_is_attending.hackathon_id
-         and hackathons_user_is_attending.hacker_id in (select id as friend_id from get_friends(_id)));
+         and hackathons_user_is_attending.hacker_id in (select id from get_friends(_id)));
 end
 $$
 LANGUAGE plpgsql VOLATILE;

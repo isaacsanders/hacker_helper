@@ -16,8 +16,11 @@
             <h1>Import Hackathons</h1>
 
             <form action="" method="post" enctype=multipart/form-data>
-                <label>Hackathon CSV Data</label>
-                <input type="file">
+                <div class="form-group">
+		    <label for="data">Hackathon CSV Data</label>
+		    <input name="data" type="file">
+                </div>
+                <button class="btn btn-default" type="submit">Import</button>
             </form>
         </div>
     </div>

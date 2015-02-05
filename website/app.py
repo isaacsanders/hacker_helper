@@ -6,15 +6,11 @@ from util import process_hackathon_data
 
 app = Flask(__name__)
 
-process_hackathon_data()
-
 import Config
 secret = Config.return_secrets()
 SECRET_KEY = secret["SECRET_KEY"]
 FACEBOOK_APP_ID = secret["FACEBOOK_APP_ID"]
 FACEBOOK_APP_SECRET = secret["FACEBOOK_APP_SECRET"]
-
-cur = conn.cursor()
 
 app = Flask(__name__)
 
@@ -78,6 +74,16 @@ def facebook_authorized(resp):
 @facebook.tokengetter
 def get_facebook_oauth_token():
     return session.get('oauth_token')
+
+@app.route("/import_hackathons", methods=["GET"])
+def import_hackathons_page():
+    return render_template("import_hackathons.html")
+
+@app.route("/import_hackathons", methods=["POST"])
+def import_hackathons():
+    csvfile = request.files["data"]
+    process_hackathon_data(csvfile)
+    return render_template("import_hackathons.html")
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)

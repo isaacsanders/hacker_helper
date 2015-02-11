@@ -1,7 +1,5 @@
-DROP FUNCTION get_friends( INT );
-
 CREATE OR REPLACE FUNCTION public.get_friends( _id INT )
-  RETURNS TABLE(id INT, email VARCHAR(30), location INT)
+  RETURNS table(id int, email varchar(30), name varchar(30), location int)
 AS
   $$
   BEGIN
@@ -9,6 +7,7 @@ AS
     (
       SELECT hacker.id       AS id
         ,    hacker.email    AS email
+        ,    hacker.name     AS name
         ,    hacker.location AS location
       FROM (SELECT second_hacker_id AS id
             FROM friendship
@@ -26,4 +25,4 @@ LANGUAGE plpgsql VOLATILE;
 -- testing code
 
 SELECT *
-FROM get_friends (5);
+FROM get_friends(5);

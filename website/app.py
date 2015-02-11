@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
 
-from db import conn, get_hacker
+from db import conn, get_hacker, get_friends
 from util import process_hackathon_data
 
 from facebook import GraphAPI
@@ -108,7 +108,7 @@ def import_hackathons():
     return render_template("import_hackathons.html")
 
 
-@app.route("/user/<user_id>", methods=["GET"])
+@app.route("/users/<user_id>", methods=["GET"])
 def user_page(user_id):
     user = get_hacker(user_id)
     friends = get_friends(user_id)

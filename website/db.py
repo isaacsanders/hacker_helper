@@ -19,5 +19,12 @@ def get_hacker(id):
 def get_friends(id):
     cur = conn.cursor()
     cur.callproc("get_friends", (id,))
-    for friend in cur:
-        print friend
+    friends = []
+    for (fid, email, name, lid) in cur.fetchall():
+        friends.append(
+        { "id": fid
+        , "email": email
+        , "name": name
+        , "location_id": lid
+        })
+    return friends

@@ -1,0 +1,38 @@
+- "Login"
+	- If have account -> login with facebook -> "Hacker Dashboard"
+	- If no account -> modal (Would you like to create an account on Hackathon Helper? All you need is a facebook profile!) -> "Hacker Dashboard"
+- "Hacker Dashboard"
+	- Name
+	- Profile picture
+	- Location
+	- Hackathons attended
+	- Upcoming hackathons
+	- Friends
+	- "Team Management"
+	- "Browse Hackathons"
+	- Search bar on top to search for friends -> "Search Results Page"
+- "Search Results Page"
+	- List of search results -> "Hacker Dashboard" (other hacker)
+- "Browse Hackathons"
+	- List of hackathons by distance from hacker/alphabetical/date -> "Hackathon"
+- "Hackathon"
+	- Name
+	- Logo
+	- Cover image
+	- Start date
+	- End date
+	- Register (button) (grayed out if registered)
+		- if more info needed -> "Additional Information Page"
+- "Additional Information Page"
+	- list of questions
+	- list of boxes for answers
+	- submit button -> fires off register script
+- "Team Management"
+	- Create new team (button) -> modal ("Name your new team!" name)
+	- list of teams you are a part of
+		- Each team
+			- invite someone to team (button) -> modal ("who would you like to invite?" + dropdown of friends)
+			- leave the team (button) -> modal ("Are you sure? Your teammates will miss you :(" y/n)
+			- list of hackathons the team is particpating in
+				- remove team for hackathon (button) -> modal ("Are you sure?" y/n)
+			- register team for hackathon (button) -> modal ("which hackathon?" + dropdown of hackathons that all of you teammates are registered for)

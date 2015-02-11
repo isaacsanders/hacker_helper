@@ -13,11 +13,9 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-offset-2">
-                <div class="col-md-2">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="page-header">
                     <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>
-                </div>
-                <div class="col-md-6">
                     <h1>
                         {{ hackathon.name }}
                         <small>
@@ -29,11 +27,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-offset-2">
-                <div class="col-md-8">
-                    <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
-                    <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
-                </div>
+            <div class="col-md-8 col-md-offset-2">
+                <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
+                <br/>
+                <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
             </div>
         </div>
     </div>

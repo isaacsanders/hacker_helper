@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION public.get_friends( _id INT )
-  RETURNS table(id int, email varchar(30), name varchar(30), location varchar(30))
+  RETURNS table(id int, email varchar(30), name varchar(30), location int)
 AS
   $$
   BEGIN
@@ -25,4 +25,4 @@ LANGUAGE plpgsql VOLATILE;
 -- testing code
 
 SELECT *
-FROM get_friends (5);
+FROM get_friends(5);

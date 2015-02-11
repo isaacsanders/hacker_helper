@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
+import requests
 
 from db import *
 from util import process_hackathon_data
@@ -66,9 +67,55 @@ def info():
     print me.data
     return me.data['name']+" and what we are storing "+me.data["id"]
 
-@app.route("/distances")
-def get_distances():
-    return 0
+@app.route("/get_distance", methods=["POST"])
+def get_distance():
+    j = request.get_json()
+    return get_distance(j)
+
+def get_distance(j):
+    j = j.replace(",","+")
+    j = j.replace(" ","")
+    print j
+    me = facebook.get('/me')
+    cur = conn.cursor()
+
+    cur.execute("SELECT * from get_hacker_from_oauth(%s)",[str(me.data["id"])])
+    person = cur.next()
+    print person
+    person = person[0]
+
+    cur.execute("SELECT * from get_my_location(%s)",[str(person)])
+    loc = ""
+    address = cur.next()
+    for l in address:
+        loc+=str(l)+"+"
+    loc = loc[:-1]
+    r = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+j+"&destinations="+loc+"&key=AIzaSyDlqdpDbe7zYZfl6du0V2TeUR8cxu9eZ5c")
+    print r.text
+    return r.text.replace("\u","")
+
+def get_distance2(j):
+    j = j.replace(",","+")
+    j = j.replace(" ","")
+    print j
+    me = facebook.get('/me')
+    cur = conn.cursor()
+
+    cur.execute("SELECT * from get_hacker_from_oauth(%s)",[str(me.data["id"])])
+    person = cur.next()
+    print person
+    person = person[0]
+    MY_ID = person
+
+    cur.execute("SELECT * from get_my_location(%s)",[str(person)])
+    loc = ""
+    address = cur.next()
+    for l in address:
+        loc+=str(l)+"+"
+    loc = loc[:-1]
+    r = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+j+"&destinations="+loc+"&key=AIzaSyDlqdpDbe7zYZfl6du0V2TeUR8cxu9eZ5c")
+    j = json.loads(r.text)
+    return j["rows"][0]["elements"][0]["duration"]["text"]
 
 
 @app.route('/login/authorized')

@@ -45,8 +45,7 @@ def get_hackathon(hackathon_id):
         cur.callproc("get_hackathon", (hackathon_id,))
         hackathon = cur.fetchone()
         if hackathon is not None:
-            print hackathon
-            id, name, logo_url, cover_image_url, location_id, start_date, end_date, state, city, zipcode, country, street_number, route, website = hackathon
+            id, name, logo_url, cover_image_url, start_date, end_date, state, city, zipcode, country, street_number, route, website = hackathon
             cur.close()
             directions_url = "http://maps.google.com?daddr=" + '+'.join([street_number, route,
                                                                                     city, state,

@@ -13,34 +13,31 @@
 <body>
     <div class="container">
         <div class="row">
-            <img src="{{ hackathon.cover_image_url }}" class="img-responsive" />
-            <div class="col-md-4 col-md-offset-2">
-                <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>
-            </div>
-            <div class="col-md-4">
-                <h1>
-                    {{ hackathon.name }}
-                    <small>
-                        {{ hackathon.start_date | datetimeformat }} -
-                        {{ hackathon.end_date | datetimeformat }}
-                    </small>
-                </h1>
+            <div class="col-md-offset-2">
+                <div class="col-md-2">
+                    <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>
+                </div>
+                <div class="col-md-6">
+                    <h1>
+                        {{ hackathon.name }}
+                        <small>
+                            {{ hackathon.start_date | datetimeformat }} -
+                            {{ hackathon.end_date | datetimeformat }}
+                        </small>
+                    </h1>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h1>
-                    {{ hackathon.name }}
-                    <small>
-                        {{ hackathon.start_date | datetimeformat }} -
-                        {{ hackathon.end_date | datetimeformat }}
-                    </small>
-                </h1>
-                <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
-                <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
+            <div class="col-md-offset-2">
+                <div class="col-md-8">
+                    <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
+                    <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
+                </div>
             </div>
         </div>
     </div>
+
 
 </body>
 </html>

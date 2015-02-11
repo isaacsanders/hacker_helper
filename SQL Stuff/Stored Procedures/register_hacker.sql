@@ -5,16 +5,19 @@ AS
   DECLARE
     retval INTEGER;
   BEGIN
-    IF exists(SELECT 1
-              FROM hacker
-              WHERE hacker.email = _email)
+    START TRANSACTION;
+    IF exists (SELECT 1
+               FROM hacker
+               WHERE hacker.email = _email)
     THEN
+      ROLLBACK TRANSACTION;
       retval = 1;
       RETURN retval;
     ELSE
       INSERT INTO hacker (email, fb_oauth_access_token, name)
       VALUES (_email, _fb_oauth_token, _name);
       retval = 0;
+      COMMIT TRANSACTION;
       RETURN retval;
     END IF;
   END

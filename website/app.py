@@ -123,6 +123,12 @@ def hackathon_page(hackathon_id):
     hackathon = get_hackathon(hackathon_id)
     return render_template("hackathon.html", hackathon=hackathon)
 
+# view helpers
+
+@app.template_filter("datetimeformat")
+def datetimeformat(value, format='%b %d, %Y'):
+    return value.strftime(format)
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)
 

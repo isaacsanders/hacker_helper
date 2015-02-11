@@ -8,6 +8,7 @@ AS
                FROM hackathons_user_is_attending H
                WHERE H.hackathon_id = _hackathon_id AND H.hacker_id = _hacker_id)
     THEN
+      ROLLBACK TRANSACTION ;
       RETURN 1;
     END IF;
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">#}
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-social.css') }}"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="row row1 text-center">
+        <div class="col-md-12"><img src="{{ url_for('static',filename='img/header.png') }}"/></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tortor felis, vestibulum in
+            nulla a, molestie sodales nisl. Suspendisse at dictum elit. Curabitur auctor dignissim vehicula. Integer
+            blandit ornare ligula eget convallis. Fusce aliquet sem lorem, ullamcorper lacinia mi porta nec. Cras a ex
+            sollicitudin, placerat sapien ut, pellentesque urna. Nam auctor congue consectetur. Quisque id porta lorem,
+            vel volutpat nulla. Sed volutpat nisl enim, id pulvinar nisl bibendum id. Integer id enim tempor, elementum
+            mauris vel, sagittis risus. Nam eget vestibulum sapien, non tincidunt ligula. Morbi ullamcorper pretium
+            malesuada. Sed sit amet ante sollicitudin, consectetur dolor at, efficitur purus. Praesent id neque vitae mi
+            condimentum lobortis. Fusce a diam dui. Ut vitae diam viverra, congue nisl ut, maximus eros.
+
+            Etiam laoreet vitae neque sed suscipit. Nam eu tempor neque. Nunc lorem justo, cursus eget odio sit amet,
+            vestibulum fringilla tellus. Suspendisse convallis auctor purus, sit amet sollicitudin eros sagittis at.
+            Donec venenatis neque urna, et scelerisque velit tempor accumsan. Nunc pellentesque risus id purus
+            scelerisque, id rhoncus augue varius. Vivamus venenatis luctus ex. Praesent sed tristique eros. Aenean velit
+            diam, feugiat eu sapien a, molestie laoreet velit. Maecenas non blandit lacus. Phasellus in odio rhoncus,
+            luctus turpis ac, viverra lectus. Vestibulum cursus erat vel nisi congue, eu ullamcorper elit placerat.
+            Vivamus ac dui et elit scelerisque varius sagittis vel metus. Ut tempus tortor eu ligula placerat, nec
+            sodales dui pulvinar. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+            Curae;
+
+            Donec cursus vestibulum leo vitae tempor. Etiam porta eleifend massa vitae ornare. Phasellus fermentum
+        </div>
+        <div class="col-md-6">
+            {#            <form style="padding-top:50px">#}
+            {#                <div class="form-group">#}
+            {#                    <label for="exampleInputEmail1">Email address</label>#}
+            {#                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">#}
+            {#                </div>#}
+            {#                <div class="form-group">#}
+            {#                    <label for="exampleInputPassword1">Password</label>#}
+            {#                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">#}
+            {#                </div>#}
+            {#                 <div class="form-group">#}
+            {#                    <label for="exampleInputPassword1">Re-enter Password</label>#}
+            {#                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">#}
+            {#                </div>#}
+            {#            </form>#}
+            {#    or#}
+            <div style="margin-top: 100px">
+            <a class="btn btn-block btn-facebook" href="/login"><i class="fa fa-facebook"></i>Sign in with facebook</a>
+</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

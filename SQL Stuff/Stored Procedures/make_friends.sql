@@ -1,20 +1,28 @@
-CREATE OR REPLACE FUNCTION make_friends(_p1 INT, _p2 INT)
+CREATE OR REPLACE FUNCTION make_friends( _p1 INT, _p2 INT )
   RETURNS INTEGER AS
-$RETVAL$
-declare
-    retval integer;
-begin
-  if not exists(select * from friendship where (first_hacker_id = _p1 and second_hacker_id = _p2) union select * from friendship where (first_hacker_id = _p2 and second_hacker_id = _p1))
+  $RETVAL$
+  DECLARE
+    retval INTEGER;
+  BEGIN
+    START TRANSACTION;
+    IF NOT exists (SELECT *
+                   FROM friendship
+                   WHERE (first_hacker_id = _p1 AND second_hacker_id = _p2)
+                   UNION SELECT *
+                         FROM friendship
+                         WHERE (first_hacker_id = _p2 AND second_hacker_id = _p1))
     THEN
       INSERT INTO friendship (first_hacker_id, second_hacker_id)
       VALUES (_p1, _p2);
+      COMMIT TRANSACTION;
       retval = 0;
     ELSE
+      ROLLBACK TRANSACTION;
       retval = 1;
-  END IF;
+    END IF;
 
-  return retval;
-end
-$RETVAL$
+    RETURN retval;
+  END
+  $RETVAL$
 LANGUAGE plpgsql VOLATILE
 COST 100;

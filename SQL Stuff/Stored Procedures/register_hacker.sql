@@ -1,20 +1,25 @@
-CREATE OR REPLACE FUNCTION public.register_hacker(_email varchar, _fb_oauth_token varchar, _name varchar)
-  RETURNS int4
+CREATE OR REPLACE FUNCTION public.register_hacker( _email VARCHAR, _fb_oauth_token VARCHAR, _name VARCHAR )
+  RETURNS INT4
 AS
-$BODY$
-  declare
-    retval integer;
-begin
-  if exists(select 1 from hacker where hacker.email = _email)
+  $BODY$
+  DECLARE
+    retval INTEGER;
+  BEGIN
+    START TRANSACTION;
+    IF exists (SELECT 1
+               FROM hacker
+               WHERE hacker.email = _email)
     THEN
+      ROLLBACK TRANSACTION;
       retval = 1;
-      return retval;
+      RETURN retval;
     ELSE
-      INSERT INTO hacker (email , fb_oauth_access_token, name)
-      VALUES (_email, _fb_oauth_access_token, _name);
+      INSERT INTO hacker (email, fb_oauth_access_token, name)
+      VALUES (_email, _fb_oauth_token, _name);
       retval = 0;
-      return retval;
+      COMMIT TRANSACTION;
+      RETURN retval;
     END IF;
-end
-$BODY$
+  END
+  $BODY$
 LANGUAGE plpgsql VOLATILE;

@@ -1,14 +1,29 @@
-CREATE OR REPLACE FUNCTION public.get_friends(_id int)
-  RETURNS table(id int, email varchar(30), location varchar(30))
+DROP FUNCTION get_friends( INT );
+
+CREATE OR REPLACE FUNCTION public.get_friends( _id INT )
+  RETURNS TABLE(id INT, email VARCHAR(30), location INT)
 AS
-$$
-begin
-  return QUERY
-  (select hacker.id as id, hacker.email as email, hacker.location as location from (select second_hacker_id as id from friendship where first_hacker_id = _id
-                                   union
-                                   select first_hacker_id as id from friendship where second_hacker_id = _id) as friend_id, hacker
-  WHERE
-    hacker.id = friend_id.id);
-end
-$$
+  $$
+  BEGIN
+    RETURN QUERY
+    (
+      SELECT hacker.id       AS id
+        ,    hacker.email    AS email
+        ,    hacker.location AS location
+      FROM (SELECT second_hacker_id AS id
+            FROM friendship
+            WHERE first_hacker_id = _id
+            UNION
+            SELECT first_hacker_id AS id
+            FROM friendship
+            WHERE second_hacker_id = _id) AS friend_id, hacker
+      WHERE
+        hacker.id = friend_id.id);
+  END
+  $$
 LANGUAGE plpgsql VOLATILE;
+
+-- testing code
+
+SELECT *
+FROM get_friends (5);

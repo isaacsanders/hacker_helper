@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="hackathon_helper_logo.svg"
+   inkscape:export-filename="C:\Users\thaimp\Desktop\hackathon_helper_logo.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -66,7 +69,7 @@
          id="flowPara2991">hackathon</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3028"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#999999;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#4d4d4d;fill-opacity:1;stroke:none;font-family:Sans"
        transform="matrix(3.4118046,0,0,4.121487,-186.69497,-1169.1758)"><flowRegion
          id="flowRegion3030"><rect
            id="rect3032"
@@ -74,7 +77,7 @@
            height="160.61426"
            x="209.10158"
            y="377.58029"
-           style="fill:#999999" /></flowRegion><flowPara
+           style="fill:#4d4d4d" /></flowRegion><flowPara
          id="flowPara3034">}</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3036"
@@ -90,7 +93,7 @@
          id="flowPara3042">HELPER</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3028-2"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#999999;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#4d4d4d;fill-opacity:1;stroke:none;font-family:Sans"
        transform="matrix(-3.4109403,0.07679071,-0.09276379,-4.1204429,984.51706,2118.686)"
        inkscape:transform-center-x="-70.710678"
        inkscape:transform-center-y="159.6041"><flowRegion
@@ -100,6 +103,6 @@
            height="160.61426"
            x="209.10158"
            y="377.58029"
-           style="fill:#999999" /></flowRegion><flowPara
+           style="fill:#4d4d4d" /></flowRegion><flowPara
          id="flowPara3034-5">}</flowPara></flowRoot>  </g>
 </svg>

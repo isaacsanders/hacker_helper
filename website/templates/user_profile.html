@@ -21,28 +21,50 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 col-md-offset-2">
-                <h2>Friends</h2>
-                <ul>
-                    {% for friend in friends %}
-                        <li><a href="/users/{{ friend.id }}">
-                            {{ friend.name }}
-                        </a></li>
-                    {% endfor %}
-                </ul>
+            <div class="col-md-offset-2">
+                <div class="col-md-4">
+                    <h2>Friends</h2>
+                    <ul>
+                        {% for friend in friends %}
+                            <li><a href="/users/{{ friend.id }}">
+                                {{ friend.name }}
+                            </a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h2>Hackathons</h2>
+                    <ul>
+                        {% for hackathon in hackathons_attended %}
+                            <li><a href="/hackathons/{{ hackathon.id }}">
+                                {{ hackathon.name }}
+                            </a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h2>Hackathons</h2>
-                <ul>
-                    {% for hackathon in hackathons_attended %}
-                        <li><a href="/hackathons/{{ hackathon.id }}">
-                            {{ hackathon.name }}
-                        </a></li>
-                    {% endfor %}
-                </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2">
+                <h2>Teams</h2>
+                {% for team in teams %}
+                    <div class="col-md-4">
+                        <a href="/teams/{{ team.id }}">
+                            <h3>{{ team.name }}</h3>
+                        </a>
+                        <ul>
+                            {% for member in team.members %}
+                                <li>
+                                    <a href="/users/{{ member.id }}">
+                                        {{ member.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-
 </body>
 </html>

@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
 
-from db import conn, get_hacker, get_friends
+from db import *
 from util import process_hackathon_data
 
 from facebook import GraphAPI
@@ -112,8 +112,16 @@ def import_hackathons():
 def user_page(user_id):
     user = get_hacker(user_id)
     friends = get_friends(user_id)
-    return render_template("user_profile.html", user=user, friends=friends)
+    hackathons_attended = get_hackathons_attended(user_id)
+    return render_template("user_profile.html"
+                           , user=user
+                           , hackathons_attended=hackathons_attended
+                           , friends=friends)
 
+@app.route("/hackathons/<hackathon_id>", methods=["GET"])
+def hackathon_page(hackathon_id):
+    hackathon = get_hackathon(hackathon_id)
+    return render_template("hackathon.html", hackathon=hackathon)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)

@@ -1,0 +1,28 @@
+{% extends "layouts/application.html" %}
+{% block title %}
+    {{ hackathon.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>
+                <h1>
+                    {{ hackathon.name }}
+                    <small>
+                        {{ hackathon.start_date | datetimeformat }} -
+                        {{ hackathon.end_date | datetimeformat }}
+                    </small>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
+            <br/>
+            <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
+        </div>
+    </div>
+{% endblock %}

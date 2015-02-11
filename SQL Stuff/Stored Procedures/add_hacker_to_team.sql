@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION add_team( _hacker_id INTEGER, _team_id INTEGER )
+CREATE OR REPLACE FUNCTION add_hacker_to_team( _hacker_id INTEGER, _team_id INTEGER )
   RETURNS INTEGER AS
   $$
   BEGIN

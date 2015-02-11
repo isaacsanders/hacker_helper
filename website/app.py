@@ -66,7 +66,7 @@ def info():
     print me.data
     return me.data['name']+" and what we are storing "+me.data["id"]
 
-@app.route("")
+@app.route("/distances")
 def get_distances():
     return 0
 

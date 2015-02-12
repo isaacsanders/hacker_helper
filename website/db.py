@@ -13,6 +13,7 @@ def get_hacker(id):
                 "fb_oauth_access_token": fb_token
             }
         else:
+
             return None
 
 def get_friends(user_id):
@@ -41,8 +42,9 @@ def get_friends_at_hackathon(user_id,hackathon_id):
 def is_going(facebook_id,hackathon_id):
     id = get_hacker_from_oauth(facebook_id)["id"]
     hackathons = get_hackathons_attended(id)
+    print hackathons
     for hackathon in hackathons:
-        if hackathon_id==hackathon["id"]:
+        if int(hackathon_id)==int(hackathon["id"]):
             return True
     return False
 
@@ -50,6 +52,7 @@ def add_friend(facebook_id, friend_id):
     id = str(get_hacker_from_oauth(facebook_id)["id"])
     with conn.cursor() as cur:
         cur.callproc("add_friend", (int(id),int(friend_id)))
+        conn.commit()
         return str(cur.fetchall())
 
 def is_friends(facebook_id,friend_id):
@@ -84,6 +87,14 @@ def get_hackathons():
             , "location": ",".join([street_number, route, city, state, zipcode, country])
             })
         return hackathons
+
+def register_for_hackathon(hackathon_id, user_id):
+    with conn.cursor() as cur:
+        user_id = get_hacker_from_oauth(user_id)["id"]
+        cur.callproc("register_user_for_hackathon", (hackathon_id, user_id))
+        conn.commit()
+        return cur.fetchall()
+
 
 
 def get_hackathons_attended(user_id):
@@ -124,6 +135,7 @@ def add_team(creator_id, team_name):
     with conn.cursor() as cur:
         cur.callproc("add_team", (creator_id, team_name))
         team_id = cur.fetchone()
+        conn.commit()
         return team_id
 
 def get_hacker_from_oauth(oauth_token):

@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="page-header">
@@ -24,10 +25,31 @@
             <br/>
             <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
             <br>
-            {% if registered %}
-            <button style="color:red">Register</button>
-            {% endif %}
             {% if not registered %}
+
+            <button onclick="registerHackathon({{ hackathon.id }})" style="color:red">Register</button>
+                <script>
+                    function registerHackathon(uid){
+                        console.log(uid);
+            $.ajax
+            ({
+                type: "GET",
+                //the url where you want to sent the userName and password to
+                url: "/register/"+uid,
+                async: true,
+                contentType: "application/json",
+                success: function (data) {
+                    console.log("gotit")
+                    console.log(data)
+                }
+            })
+                    }
+
+                </script>
+            {% endif %}
+
+
+            {% if registered %}
             You are already registered
             {% endif %}
         </div>

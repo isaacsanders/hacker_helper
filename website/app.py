@@ -170,10 +170,11 @@ def user_page(user_id):
 
     friends = get_friends(user_id)
 
+    print friends
+
     hackathons_attended = get_hackathons_attended(user_id)
 
     friend = is_friends(me.data["id"],user_id)
-
 
     return render_template("users/show.html"
                            , user=user
@@ -196,6 +197,10 @@ def hackathon_index():
         hackathons[k]["distance"] = dist
         hackathons[k]["friends"] = get_friends_at_hackathon(id, hackathon["id"])
 
+    for k,hackathon in enumerate(hackathons):
+        registered = is_going(facebook.get('/me').data["id"], hackathon["id"])
+        hackathons[k]["registered"] = registered
+
 
     return render_template("hackathons/index.html", hackathons=hackathons)
 
@@ -204,10 +209,10 @@ def hackathon_page(hackathon_id):
     hackathon = get_hackathon(hackathon_id)
 
     registered = is_going(facebook.get('/me').data["id"],hackathon_id)
-    print registered
+
     #Need to get registered here
 
-    return render_template("hackathons/show.html", hackathon=hackathon, registered=True)
+    return render_template("hackathons/show.html", hackathon=hackathon, registered=registered)
 
 @app.route("/teams/new", methods=["GET"])
 def new_team():
@@ -223,9 +228,9 @@ def create_team():
         add_hacker_to_team(member_id, team_id)
 
 @app.route("/register/<hackathon_id>")
-def register_for_hackathon():
-    return ""
-
+def register_for_thon(hackathon_id):
+    r = register_for_hackathon(hackathon_id, facebook.get('/me').data["id"])
+    return str(r)
 
 # view helpers
 

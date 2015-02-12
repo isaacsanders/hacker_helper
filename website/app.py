@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 from flask_oauth import OAuth
 import requests
+import json
 
 from db import *
 from util import process_hackathon_data

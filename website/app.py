@@ -216,13 +216,14 @@ def hackathon_page(hackathon_id):
 
 @app.route("/teams/new", methods=["GET"])
 def new_team():
-    return render_template("teams/new.html")
+    id = current_user()['id']
+    return render_template("teams/new.html", friends=get_friends(id))
 
 @app.route("/teams", methods=["POST"])
 def create_team():
     team_name = request.form['name']
     member_ids = request.form['members']
-    (id, _email, _location, _name) = get_hacker_from_oauth(session['oauth_token'])
+    id = current_user()['id']
     team_id = add_team(id, team_name)
     for member_id in member_ids:
         add_hacker_to_team(member_id, team_id)
@@ -237,6 +238,22 @@ def register_for_thon(hackathon_id):
 @app.template_filter("datetimeformat")
 def datetimeformat(value, format='%b %d, %Y'):
     return value.strftime(format)
+
+# other helpers
+
+_current_user_ = None
+def current_user():
+    if _current_user_ is None:
+        fid = facebook.get('/me').data["id"]
+        (id, email, location, name) = get_hacker_from_oauth(fid)
+        _current_user = {
+            'id': id,
+            'email': email,
+            'location_id': location,
+            'name': name
+        }
+    return _current_user_
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)

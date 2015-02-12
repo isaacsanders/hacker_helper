@@ -23,9 +23,18 @@
                             <br>
 
                         </h2>
-                        <span class="distance">Distance: {{ hackathon.distance }}</span>
+
 
                     </a>
+                    <span class="distance">Distance: {{ hackathon.distance }}</span>
+                    </br>
+                        <span>Friends going</span>
+                        <ol>
+                        {% for friend in hackathon.friends %}
+                            {{ friend }}
+
+                            {% endfor %}
+                            </ol>
                 </div>
             {% endfor %}
         </div>

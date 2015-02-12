@@ -30,11 +30,41 @@ def get_friends(user_id):
 
 def get_friends_at_hackathon(user_id,hackathon_id):
     friends = get_friends(user_id)
-    hackathons = get_hackathons_attended(user_id)
-    print hackathons
-    print friends
+    friends_going = []
+    for friend in friends:
+        hackathons = get_hackathons_attended(friend["id"])
+        for hackathon in hackathons:
+            if hackathon["id"]==hackathon_id:
+                friends_going.append(str(friend["name"]))
+    return friends_going
 
-    return ""
+def is_going(facebook_id,hackathon_id):
+    id = get_hacker_from_oauth(facebook_id)["id"]
+    hackathons = get_hackathons_attended(id)
+    for hackathon in hackathons:
+        if hackathon_id==hackathon["id"]:
+            return True
+    return False
+
+def add_friend(facebook_id, friend_id):
+    id = str(get_hacker_from_oauth(facebook_id)["id"])
+    with conn.cursor() as cur:
+        cur.callproc("add_friend", (int(id),int(friend_id)))
+        return str(cur.fetchall())
+
+def is_friends(facebook_id,friend_id):
+    id = get_hacker_from_oauth(facebook_id)["id"]
+    print "THE THING"
+    print id,friend_id
+    print str(id)==str(friend_id)
+    if str(id)==str(friend_id):
+        return "You"
+    friends = get_friends(int(friend_id))
+    for friend in friends:
+        if friend["id"]==id:
+            return "Friend"
+    return "Not Friend"
+
 
 
 def get_hackathons():
@@ -42,7 +72,6 @@ def get_hackathons():
         cur.callproc("get_hackathons", ())
         hackathons = []
         for hackathon in cur.fetchall():
-            print hackathon
             id, name, logo_url, cover_image_url, start_date, end_date, script, state, city, zipcode, country, street_number, route = hackathon
 
             hackathons.append(

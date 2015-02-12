@@ -57,7 +57,6 @@ def login():
                                                next=request.args.get('next') or request.referrer or None,
                                                _external=True))
 
-
 @app.route("/location")
 def location():
     return render_template("location_entry.html")
@@ -73,7 +72,7 @@ def get_distance():
     j = request.get_json()
     return get_distance(j)
 
-def get_distance(j):
+def get_directions(j):
     j = j.replace(",","+")
     j = j.replace(" ","")
     print j
@@ -95,7 +94,7 @@ def get_distance(j):
     print r.text
     return r.text.replace("\u","")
 
-def get_distance2(j):
+def get_distance_string(j):
     j = j.replace(",","+")
     j = j.replace(" ","")
     print j
@@ -116,6 +115,8 @@ def get_distance2(j):
     loc = loc[:-1]
     r = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+j+"&destinations="+loc+"&key=AIzaSyDlqdpDbe7zYZfl6du0V2TeUR8cxu9eZ5c")
     j = json.loads(r.text)
+    if "duration" not in j["rows"][0]["elements"][0]:
+        return "Unknown"
     return j["rows"][0]["elements"][0]["duration"]["text"]
 
 
@@ -169,6 +170,11 @@ def user_page(user_id):
 @app.route("/hackathons", methods=["GET"])
 def hackathon_index():
     hackathons = get_hackathons()
+    distances = []
+    for k,hackathon in enumerate(hackathons):
+        dist = get_distance_string(hackathon["location"])
+        hackathons[k]["distance"] = dist
+    print hackathons
     return render_template("hackathons/index.html", hackathons=hackathons)
 
 @app.route("/hackathons/<hackathon_id>", methods=["GET"])

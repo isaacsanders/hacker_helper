@@ -20,7 +20,11 @@
                                 {{ hackathon.start_date | datetimeformat }} -
                                 {{ hackathon.end_date | datetimeformat }}
                             </small>
+                            <br>
+
                         </h2>
+                        <span class="distance">Distance: {{ hackathon.distance }}</span>
+
                     </a>
                 </div>
             {% endfor %}

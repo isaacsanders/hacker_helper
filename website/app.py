@@ -246,7 +246,7 @@ def current_user():
     if _current_user_ is None:
         fid = facebook.get('/me').data["id"]
         (id, email, location, name) = get_hacker_from_oauth(fid)
-        _current_user = {
+        _current_user_ = {
             'id': id,
             'email': email,
             'location_id': location,

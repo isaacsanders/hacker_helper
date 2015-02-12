@@ -41,30 +41,33 @@
                             </a></li>
                         {% endfor %}
                     </ul>
+                    <a href=""
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-offset-2">
-                <h2>Teams</h2>
-                {% for team in teams %}
-                    <div class="col-md-4">
-                        <a href="/teams/{{ team.id }}">
-                            <h3>{{ team.name }}</h3>
-                        </a>
-                        <ul>
-                            {% for member in team.members %}
-                                <li>
-                                    <a href="/users/{{ member.id }}">
-                                        {{ member.name }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endfor %}
+        {% if teams %}
+            <div class="row">
+                <div class="col-md-offset-2">
+                    <h2>Teams</h2>
+                    {% for team in teams %}
+                        <div class="col-md-4">
+                            <a href="/teams/{{ team.id }}">
+                                <h3>{{ team.name }}</h3>
+                            </a>
+                            <ul>
+                                {% for member in team.members %}
+                                    <li>
+                                        <a href="/users/{{ member.id }}">
+                                            {{ member.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 </body>
 </html>

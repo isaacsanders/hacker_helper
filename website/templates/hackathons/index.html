@@ -35,6 +35,13 @@
 
                             {% endfor %}
                             </ol>
+                </br>
+                {% if hackathon.registered %}
+                    REGISTERED
+                {% endif %}
+                {% if not hackathon.registered %}
+                    NOT REGISTERED
+                {% endif %}
                 </div>
             {% endfor %}
         </div>

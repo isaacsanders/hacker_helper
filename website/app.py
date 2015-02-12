@@ -118,6 +118,11 @@ def user_page(user_id):
                            , hackathons_attended=hackathons_attended
                            , friends=friends)
 
+@app.route("/hackathons", methods=["GET"])
+def hackathon_index():
+    hackathons = get_hackathons()
+    return render_template("hackathons/index.html", hackathons=hackathons)
+
 @app.route("/hackathons/<hackathon_id>", methods=["GET"])
 def hackathon_page(hackathon_id):
     hackathon = get_hackathon(hackathon_id)

@@ -28,6 +28,23 @@ def get_friends(user_id):
             })
         return friends
 
+def get_hackathons():
+    with conn.cursor() as cur:
+        cur.callproc("get_hackathons", ())
+        hackathons = []
+        for hackathon in cur.fetchall():
+            id, name, logo_url, cover_image_url, start_date, end_date, state, city, zipcode, country, street_number, route, website = hackathon
+            hackathons.append(
+            { "id": id
+            , "name": name
+            , "logo_url": logo_url
+            , "cover_image_url": cover_image_url
+            , "start_date": start_date
+            , "end_date": end_date
+            })
+        return hackathons
+
+
 def get_hackathons_attended(user_id):
     with conn.cursor() as cur:
         cur.callproc("get_hackathons_attending_from_hacker_id", (user_id,))

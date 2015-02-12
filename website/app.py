@@ -146,13 +146,13 @@ def get_facebook_oauth_token():
 
 @app.route("/import_hackathons", methods=["GET"])
 def import_hackathons_page():
-    return render_template("import_hackathons.html")
+    return render_template("hackathons/import.html")
 
 @app.route("/import_hackathons", methods=["POST"])
 def import_hackathons():
     csvfile = request.files["data"]
     process_hackathon_data(csvfile)
-    return render_template("import_hackathons.html")
+    return render_template("hackathons/import.html")
 
 
 @app.route("/users/<user_id>", methods=["GET"])
@@ -160,15 +160,33 @@ def user_page(user_id):
     user = get_hacker(user_id)
     friends = get_friends(user_id)
     hackathons_attended = get_hackathons_attended(user_id)
-    return render_template("user_profile.html"
+    return render_template("users/show.html"
                            , user=user
                            , hackathons_attended=hackathons_attended
                            , friends=friends)
 
+@app.route("/hackathons", methods=["GET"])
+def hackathon_index():
+    hackathons = get_hackathons()
+    return render_template("hackathons/index.html", hackathons=hackathons)
+
 @app.route("/hackathons/<hackathon_id>", methods=["GET"])
 def hackathon_page(hackathon_id):
     hackathon = get_hackathon(hackathon_id)
-    return render_template("hackathon.html", hackathon=hackathon)
+    return render_template("hackathons/show.html", hackathon=hackathon)
+
+@app.route("/teams/new", methods=["GET"])
+def new_team():
+    return render_template("teams/new.html")
+
+@app.route("/teams", methods=["POST"])
+def create_team():
+    team_name = request.form['name']
+    member_ids = request.form['members']
+    (id, _email, _location, _name) = get_hacker_from_oauth(session['oauth_token'])
+    team_id = add_team(id, team_name)
+    for member_id in member_ids:
+        add_hacker_to_team(member_id, team_id)
 
 # view helpers
 

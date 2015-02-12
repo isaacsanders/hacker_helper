@@ -8,7 +8,6 @@ def get_hacker(id):
         user = cur.fetchone()
         if user is not None:
             name, fb_token = user
-            cur.close()
             return {
                 "name": name,
                 "fb_oauth_access_token": fb_token
@@ -29,6 +28,23 @@ def get_friends(user_id):
             })
         return friends
 
+def get_hackathons():
+    with conn.cursor() as cur:
+        cur.callproc("get_hackathons", ())
+        hackathons = []
+        for hackathon in cur.fetchall():
+            id, name, logo_url, cover_image_url, start_date, end_date, state, city, zipcode, country, street_number, route, website = hackathon
+            hackathons.append(
+            { "id": id
+            , "name": name
+            , "logo_url": logo_url
+            , "cover_image_url": cover_image_url
+            , "start_date": start_date
+            , "end_date": end_date
+            })
+        return hackathons
+
+
 def get_hackathons_attended(user_id):
     with conn.cursor() as cur:
         cur.callproc("get_hackathons_attending_from_hacker_id", (user_id,))
@@ -46,7 +62,6 @@ def get_hackathon(hackathon_id):
         hackathon = cur.fetchone()
         if hackathon is not None:
             id, name, logo_url, cover_image_url, start_date, end_date, state, city, zipcode, country, street_number, route, website = hackathon
-            cur.close()
             directions_url = "http://maps.google.com?daddr=" + '+'.join([street_number, route,
                                                                                     city, state,
                                                                                     zipcode, country]).replace(" ", "+")
@@ -61,3 +76,23 @@ def get_hackathon(hackathon_id):
                     }
         else:
             return None
+
+def add_team(creator_id, team_name):
+    with conn.cursor() as cur:
+        cur.callproc("add_team", (creator_id, team_name))
+        team_id = cur.fetchone()
+        return team_id
+
+def get_hacker_from_oauth(oauth_token):
+    with conn.cursor() as cur:
+        cur.callproc("get_hacker_from_ouath", (oauth_token,))
+        id, email, location_id, name = cur.fetchone()
+        return { "id": id
+               , "email": email
+               , "location_id": location_id
+               , "name": name
+               }
+
+def add_hacker_to_team(member_id, team_id):
+    with conn.cursor() as cur:
+        cur.callproc("add_hacker_to_team", (member_id, team_id))

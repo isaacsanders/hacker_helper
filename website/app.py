@@ -179,9 +179,7 @@ def hackathon_index():
     for k,hackathon in enumerate(hackathons):
         dist = get_distance_string(hackathon["location"])
         hackathons[k]["distance"] = dist
-
-    #Getting friends attending
-
+        hackathons[k]["friends"] = get_friends_at_hackathon(id, hackathon["id"])
 
 
     return render_template("hackathons/index.html", hackathons=hackathons)

@@ -169,18 +169,30 @@ def user_page(user_id):
 
 @app.route("/hackathons", methods=["GET"])
 def hackathon_index():
+
+    me = facebook.get('/me')
+    id = get_hacker_from_oauth(me.data["id"])["id"]
+
     hackathons = get_hackathons()
-    distances = []
+
+    print hackathons
     for k,hackathon in enumerate(hackathons):
         dist = get_distance_string(hackathon["location"])
         hackathons[k]["distance"] = dist
-    print hackathons
+
+    #Getting friends attending
+
+
+
     return render_template("hackathons/index.html", hackathons=hackathons)
 
 @app.route("/hackathons/<hackathon_id>", methods=["GET"])
 def hackathon_page(hackathon_id):
     hackathon = get_hackathon(hackathon_id)
-    return render_template("hackathons/show.html", hackathon=hackathon)
+
+    #Need to get registered here
+
+    return render_template("hackathons/show.html", hackathon=hackathon, registered=True)
 
 @app.route("/teams/new", methods=["GET"])
 def new_team():

@@ -28,12 +28,23 @@ def get_friends(user_id):
             })
         return friends
 
+def get_friends_at_hackathon(user_id,hackathon_id):
+    friends = get_friends(user_id)
+    hackathons = get_hackathons_attended(user_id)
+    print hackathons
+    print friends
+
+    return ""
+
+
 def get_hackathons():
     with conn.cursor() as cur:
         cur.callproc("get_hackathons", ())
         hackathons = []
         for hackathon in cur.fetchall():
-            id, name, logo_url, cover_image_url, start_date, end_date, state, city, zipcode, country, street_number, route, website = hackathon
+            print hackathon
+            id, name, logo_url, cover_image_url, start_date, end_date, script, state, city, zipcode, country, street_number, route = hackathon
+
             hackathons.append(
             { "id": id
             , "name": name
@@ -41,6 +52,7 @@ def get_hackathons():
             , "cover_image_url": cover_image_url
             , "start_date": start_date
             , "end_date": end_date
+            , "location": ",".join([street_number, route, city, state, zipcode, country])
             })
         return hackathons
 
@@ -65,6 +77,7 @@ def get_hackathon(hackathon_id):
             directions_url = "http://maps.google.com?daddr=" + '+'.join([street_number, route,
                                                                                     city, state,
                                                                                     zipcode, country]).replace(" ", "+")
+
             return { "id": id
                     , "name": name
                     , "logo_url": logo_url
@@ -73,6 +86,7 @@ def get_hackathon(hackathon_id):
                     , "end_date": end_date
                     , "directions_url": directions_url
                     , "website": website
+
                     }
         else:
             return None
@@ -85,7 +99,7 @@ def add_team(creator_id, team_name):
 
 def get_hacker_from_oauth(oauth_token):
     with conn.cursor() as cur:
-        cur.callproc("get_hacker_from_ouath", (oauth_token,))
+        cur.callproc("get_hacker_from_oauth", (oauth_token,))
         id, email, location_id, name = cur.fetchone()
         return { "id": id
                , "email": email

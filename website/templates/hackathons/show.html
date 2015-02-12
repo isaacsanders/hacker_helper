@@ -23,6 +23,13 @@
             <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
             <br/>
             <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
+            <br>
+            {% if registered %}
+            <button style="color:red">Register</button>
+            {% endif %}
+            {% if not registered %}
+            You are already registered
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -3,18 +3,22 @@ from flask_oauth import OAuth
 import requests
 import json
 
-from db import *
-from util import process_hackathon_data
+import psycopg2
+import psycopg2.extensions
+import logging
 
-from facebook import GraphAPI
 
 app = Flask(__name__)
+
+
 
 import Config
 secret = Config.return_secrets()
 SECRET_KEY = secret["SECRET_KEY"]
 FACEBOOK_APP_ID = secret["FACEBOOK_APP_ID"]
 FACEBOOK_APP_SECRET = secret["FACEBOOK_APP_SECRET"]
+
+conn = psycopg2.connect(database="hacker", user="dax", password="daxiscool")
 
 app = Flask(__name__)
 
@@ -30,6 +34,7 @@ facebook = oauth.remote_app('facebook',
                             consumer_secret=FACEBOOK_APP_SECRET,
                             request_token_params={'scope': 'email'}
 )
+
 
 @app.route('/')
 def index():
@@ -50,6 +55,11 @@ def submit_location():
     cur.close()
     conn.commit()
     return "success"
+
+@app.route("/add_friend", methods=["POST"])
+def add_friend():
+    j = request.get_json()
+
 
 @app.route('/login')
 def login():
@@ -72,12 +82,7 @@ def get_distance():
     j = request.get_json()
     return get_distance(j)
 
-@app.route("/add_friend/<id>")
-def add_friends(id):
-    return add_friend(str(facebook.get('/me').data["id"]),id)
-
-
-def get_directions(j):
+def get_distance(j):
     j = j.replace(",","+")
     j = j.replace(" ","")
     print j
@@ -99,7 +104,7 @@ def get_directions(j):
     print r.text
     return r.text.replace("\u","")
 
-def get_distance_string(j):
+def get_distance2(j):
     j = j.replace(",","+")
     j = j.replace(" ","")
     print j
@@ -120,9 +125,47 @@ def get_distance_string(j):
     loc = loc[:-1]
     r = requests.get("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+j+"&destinations="+loc+"&key=AIzaSyDlqdpDbe7zYZfl6du0V2TeUR8cxu9eZ5c")
     j = json.loads(r.text)
-    if "duration" not in j["rows"][0]["elements"][0]:
-        return "Unknown"
     return j["rows"][0]["elements"][0]["duration"]["text"]
+
+@app.route("/friends")
+def add_friends():
+    # print request.form["email"]
+    if "email" in request.form:
+        print request.form["email"]
+    return render_template("friends.html")
+
+
+@app.route("/hackathons")
+def get_distances():
+    j= request.get_json()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM get_hackathons()")
+    hackathons = []
+    for record in cur:
+        print record
+        hackathons.append(record)
+    distances = []
+
+    for hackathon in hackathons:
+        loc = hackathon[11]+","+hackathon[12]+","+hackathon[8]+","+hackathon[9]+","+hackathon[7] +","+hackathon[10]
+        distance = get_distance2(loc)
+        distances.append(distance)
+    cur.close()
+
+    cur = conn.cursor()
+
+    me = facebook.get('/me')
+    cur.execute("SELECT * from get_hacker_from_oauth(%s)",[str(me.data["id"])])
+    person = cur.next()
+    print person
+    person = person[0]
+    cur.execute("SELECT * from get_friends(%s)",[int(person)])
+    friends = []
+    for friend in cur:
+        friends.append(friend)
+        
+    conn.commit()
+    return render_template("hackathons.html", hd = zip(hackathons,distances),friends = friends)
 
 
 @app.route('/login/authorized')
@@ -151,104 +194,5 @@ def facebook_authorized(resp):
 def get_facebook_oauth_token():
     return session.get('oauth_token')
 
-@app.route("/import_hackathons", methods=["GET"])
-def import_hackathons_page():
-    return render_template("hackathons/import.html")
-
-@app.route("/import_hackathons", methods=["POST"])
-def import_hackathons():
-    csvfile = request.files["data"]
-    process_hackathon_data(csvfile)
-    return render_template("hackathons/import.html")
-
-
-@app.route("/users/<user_id>", methods=["GET"])
-def user_page(user_id):
-    user = get_hacker(user_id)
-
-    me = facebook.get('/me')
-
-    friends = get_friends(user_id)
-
-    print friends
-
-    hackathons_attended = get_hackathons_attended(user_id)
-
-    friend = is_friends(me.data["id"],user_id)
-
-    return render_template("users/show.html"
-                           , user=user
-                           , friend=friend
-                           , user_id=user_id
-                           , hackathons_attended=hackathons_attended
-                           , friends=friends)
-
-@app.route("/hackathons", methods=["GET"])
-def hackathon_index():
-
-    me = facebook.get('/me')
-    id = get_hacker_from_oauth(me.data["id"])["id"]
-
-    hackathons = get_hackathons()
-
-    print hackathons
-    for k,hackathon in enumerate(hackathons):
-        dist = get_distance_string(hackathon["location"])
-        hackathons[k]["distance"] = dist
-        hackathons[k]["friends"] = get_friends_at_hackathon(id, hackathon["id"])
-
-    for k,hackathon in enumerate(hackathons):
-        registered = is_going(facebook.get('/me').data["id"], hackathon["id"])
-        hackathons[k]["registered"] = registered
-
-
-    return render_template("hackathons/index.html", hackathons=hackathons)
-
-@app.route("/hackathons/<hackathon_id>", methods=["GET"])
-def hackathon_page(hackathon_id):
-    hackathon = get_hackathon(hackathon_id)
-
-    registered = is_going(facebook.get('/me').data["id"],hackathon_id)
-
-    #Need to get registered here
-
-    return render_template("hackathons/show.html", hackathon=hackathon, registered=registered)
-
-@app.route("/teams/new", methods=["GET"])
-def new_team():
-    return render_template("teams/new.html")
-
-@app.route("/teams", methods=["POST"])
-def create_team():
-    team_name = request.form['name']
-    member_ids = request.form['members']
-    (id, _email, _location, _name) = get_hacker_from_oauth(session['oauth_token'])
-    team_id = add_team(id, team_name)
-    for member_id in member_ids:
-        add_hacker_to_team(member_id, team_id)
-
-@app.route("/register/<hackathon_id>")
-def register_for_thon(hackathon_id):
-    r = register_for_hackathon(hackathon_id, facebook.get('/me').data["id"])
-    return str(r)
-
-@app.route("/sample1")
-def sample():
-    return render_template("sample.html")
-
-@app.route("/log_to_file/<data>")
-def log_file(data):
-    print data
-    with open("log.file", "a") as myfile:
-        myfile.write(data)
-        myfile.write("\n")
-    return "submitted"
-# view helpers
-
-@app.template_filter("datetimeformat")
-def datetimeformat(value, format='%b %d, %Y'):
-    return value.strftime(format)
-
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)
-
+    app.run(host="0.0.0.0", port=Config.get_port(), threaded=True, debug=True)

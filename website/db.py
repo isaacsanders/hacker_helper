@@ -69,6 +69,8 @@ def is_friends(facebook_id,friend_id):
 
 
 
+
+
 def get_hackathons():
     with conn.cursor() as cur:
         cur.callproc("get_hackathons", ())

@@ -33,7 +33,8 @@ facebook = oauth.remote_app('facebook',
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    # return render_template("index.html")
+    return render_template("pages/login.html")
 
 @app.route("/submit_location", methods=["POST"])
 def submit_location():

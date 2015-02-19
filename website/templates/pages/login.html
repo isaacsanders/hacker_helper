@@ -12,6 +12,8 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-social.css') }}"/>
 
     <!-- Javascript -->
     <script src="static/js/jquery-2.1.3.min.js"></script>
@@ -33,7 +35,7 @@
             <p>
                 All you need is a Facebook account!
             </p>
-            <form action="dashboard.html">
+            <form action="/login">
                 <ul>
                     <li>
                         <button type="submit" style="border: 0; background: transparent">

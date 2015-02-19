@@ -202,7 +202,8 @@ def hackathon_index():
         hackathons[k]["registered"] = registered
 
 
-    return render_template("hackathons/index.html", hackathons=hackathons)
+    # return render_template("hackathons/index.html", hackathons=hackathons)
+    return render_template("pages/browse-hackathons.html", hackathons=hackathons)
 
 @app.route("/hackathons/<hackathon_id>", methods=["GET"])
 def hackathon_page(hackathon_id):

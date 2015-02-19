@@ -6,7 +6,6 @@ CREATE OR REPLACE FUNCTION add_friends( _friender VARCHAR(30), _friendee VARCHAR
     friender_id INT;
     friendee_id INT;
   BEGIN
-    START TRANSACTION;
     friender_id := (
       SELECT id
       FROM hacker
@@ -26,15 +25,14 @@ CREATE OR REPLACE FUNCTION add_friends( _friender VARCHAR(30), _friendee VARCHAR
     THEN
       INSERT INTO friendship (first_hacker_id, second_hacker_id)
       VALUES (friender_id, friendee_id);
-      COMMIT TRANSACTION;
       retval := 0;
     ELSE
-      ROLLBACK TRANSACTION;
       retval := 1;
     END IF;
 
     RETURN retval;
   END
   $RETVAL$
-LANGUAGE plpgsql VOLATILE
-COST 100;
+LANGUAGE plpgsql VOLATILE;
+
+select * from add_friends('dax.earl@gmail.com', 'isaac@isaacbfsanders.com');

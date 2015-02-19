@@ -4,7 +4,6 @@ CREATE OR REPLACE FUNCTION make_friends( _p1 INT, _p2 INT )
   DECLARE
     retval INTEGER;
   BEGIN
-    START TRANSACTION;
     IF NOT exists (SELECT *
                    FROM friendship
                    WHERE (first_hacker_id = _p1 AND second_hacker_id = _p2)
@@ -14,10 +13,8 @@ CREATE OR REPLACE FUNCTION make_friends( _p1 INT, _p2 INT )
     THEN
       INSERT INTO friendship (first_hacker_id, second_hacker_id)
       VALUES (_p1, _p2);
-      COMMIT TRANSACTION;
       retval = 0;
     ELSE
-      ROLLBACK TRANSACTION;
       retval = 1;
     END IF;
 

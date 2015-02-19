@@ -7,18 +7,15 @@ AS
   DECLARE
     retval INTEGER;
   BEGIN
-    START TRANSACTION;
     IF exists (SELECT 1
                FROM hackathon
                WHERE hackathon.name = _name)
     THEN
-      ROLLBACK TRANSACTION;
       retval = 1;
       RETURN retval;
     ELSE
       INSERT INTO hackathon (name, logo_url, cover_image_url, location, start_date, end_date, instruction_path)
       VALUES (_name, _logo_url, _cover_image_url, _location, _start_date, _end_date, _instruction_path);
-      COMMIT TRANSACTION;
       retval = 0;
       RETURN retval;
     END IF;

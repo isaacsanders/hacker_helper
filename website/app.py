@@ -60,7 +60,8 @@ def login():
 
 @app.route("/location")
 def location():
-    return render_template("location_entry.html")
+    # return render_template("location_entry.html")
+    return render_template("pages/location.html")
 
 @app.route("/info")
 def info():

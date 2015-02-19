@@ -204,7 +204,7 @@ def hackathon_index():
 
     return render_template("hackathons/index.html", hackathons=hackathons)
 
-@app.route("/hackathons/<hackathon_id>", methods=["GET"])
+@app.route("/hackathons/<int:hackathon_id>", methods=["GET"])
 def hackathon_page(hackathon_id):
     hackathon = get_hackathon(hackathon_id)
 
@@ -216,38 +216,67 @@ def hackathon_page(hackathon_id):
 
 @app.route("/teams/new", methods=["GET"])
 def new_team():
-    return render_template("teams/new.html")
+    id = current_user()['id']
+    friends = get_friends(id)
+    return render_template("teams/new.html", friends=friends)
+
+@app.route("/teams/<int:team_id>", methods=["GET"])
+def show_team(team_id):
+    user_id = current_user()['id']
+    team = get_teams(user_id, for_team=team_id)
+    return render_template("teams/show.html", team=team)
+
+@app.route("/teams/<int:team_id>/invite", methods=["GET"])
+def invite_members_to_team(team_id):
+    user_id = current_user()['id']
+    team = get_teams(user_id, for_team=team_id)
+    teammate_ids = map(lambda x: x["id"], team["members"])
+    friends = filter(lambda friend: friend["id"] not in teammate_ids,get_friends(user_id))
+    return render_template("teams/invite.html", friends=friends, team=team)
+
+@app.route("/teams/<int:team_id>/invite", methods=["POST"])
+def commit_invitations_members_to_team(team_id):
+    user_id = current_user()['id']
+    team = get_teams(user_id, for_team=int(team_id))
+    member_ids = request.form['members']
+    me = facebook.get('/me')
+    for member_id in member_ids:
+        add_hacker_to_team(member_id, team["id"])
+
+    return redirect(url_for('team_index'))
+
+@app.route("/teams", methods=["GET"])
+def team_index():
+    user_id = current_user()['id']
+    return render_template("teams/index.html", teams=get_teams(user_id))
 
 @app.route("/teams", methods=["POST"])
 def create_team():
     team_name = request.form['name']
     member_ids = request.form['members']
-    (id, _email, _location, _name) = get_hacker_from_oauth(session['oauth_token'])
-    team_id = add_team(id, team_name)
+    user_id = current_user()['id']
+    team_id = add_team(user_id, team_name)
     for member_id in member_ids:
         add_hacker_to_team(member_id, team_id)
+    return render_template("teams/index.html", teams=get_teams(user_id))
 
 @app.route("/register/<hackathon_id>")
 def register_for_thon(hackathon_id):
     r = register_for_hackathon(hackathon_id, facebook.get('/me').data["id"])
     return str(r)
 
-@app.route("/sample1")
-def sample():
-    return render_template("sample.html")
-
-@app.route("/log_to_file/<data>")
-def log_file(data):
-    print data
-    with open("log.file", "a") as myfile:
-        myfile.write(data)
-        myfile.write("\n")
-    return "submitted"
 # view helpers
 
 @app.template_filter("datetimeformat")
 def datetimeformat(value, format='%b %d, %Y'):
     return value.strftime(format)
+
+# other helpers
+
+def current_user():
+    fid = facebook.get('/me').data["id"]
+    return get_hacker_from_oauth(fid)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=Config.get_port(), threaded=True,debug=True)

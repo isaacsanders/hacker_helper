@@ -1,0 +1,29 @@
+{% extends "layouts/application.html" %}
+{% block title %}
+    Invite to {{ team.name }}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <h1>Invite to {{ team.name }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form action="/teams/{{ team.id }}/invite" method="post">
+                <div class="form-group">
+                    <label for="members">Members</label>
+                    <select multiple class="form-control" name="members">
+                        {% for friend in friends %}
+                            <option value="{{ friend.id }}">{{ friend.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Invite</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -57,6 +57,7 @@ def add_friend(facebook_id, friend_id):
 
 def is_friends(facebook_id,friend_id):
     id = get_hacker_from_oauth(facebook_id)["id"]
+    print "THE THING"
     print id,friend_id
     print str(id)==str(friend_id)
     if str(id)==str(friend_id):
@@ -66,8 +67,6 @@ def is_friends(facebook_id,friend_id):
         if friend["id"]==id:
             return "Friend"
     return "Not Friend"
-
-
 
 
 
@@ -139,6 +138,38 @@ def add_team(creator_id, team_name):
         conn.commit()
         return team_id
 
+def get_teams(user_id, **kwargs):
+    if 'for_team' in kwargs:
+        team_id = int(kwargs['for_team'])
+    else:
+        team_id = None
+
+    with conn.cursor() as cur:
+        cur.callproc("get_teammates", (user_id,))
+        teams = {}
+        for (tmid, tmname, tid, tname) in cur.fetchall():
+            if tid in teams:
+                team = teams[tid]
+                team["members"].append({
+                    "id": tmid,
+                    "name": tmname
+                })
+            else:
+                teams[tid] = {
+                    "name": tname,
+                    "id": tid,
+                    "members": [
+                        { "id": tmid
+                        , "name": tmname
+                        }
+                    ]
+                }
+
+        if team_id is None:
+            return teams.values()
+        else:
+            return teams[team_id]
+
 def get_hacker_from_oauth(oauth_token):
     with conn.cursor() as cur:
         cur.callproc("get_hacker_from_oauth", (oauth_token,))
@@ -152,3 +183,4 @@ def get_hacker_from_oauth(oauth_token):
 def add_hacker_to_team(member_id, team_id):
     with conn.cursor() as cur:
         cur.callproc("add_hacker_to_team", (member_id, team_id))
+        conn.commit()

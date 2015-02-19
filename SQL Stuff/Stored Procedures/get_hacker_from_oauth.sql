@@ -1,5 +1,3 @@
-DROP FUNCTION get_hacker_from_oauth( VARCHAR(100) );
-
 CREATE OR REPLACE FUNCTION public.get_hacker_from_oauth( _oauth VARCHAR(100) )
   RETURNS TABLE(id INT, email VARCHAR(30), location INT, name VARCHAR(255))
 AS

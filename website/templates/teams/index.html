@@ -1,0 +1,20 @@
+{% extends "layouts/application.html" %}
+{% block title %}
+    My Teams
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-offset-2">
+            <div class="page-header">
+                <h1>My Teams</h1>
+            </div>
+            <a href="/teams/new">Create a New Team</a>
+            <ul>
+                {% for team in teams %}
+                    <li><a href="/teams/{{ team.id }}">{{ team.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

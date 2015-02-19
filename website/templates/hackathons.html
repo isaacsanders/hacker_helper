@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+  <script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+<body>
+<ul>
+<style>
+    .hackathons{
+        margin-top: 20px;
+    }
+</style>
+{#[(57, 'HackIllinois',
+'https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/125/thumb/hackil_icon_blue.png?1419273703',
+'https://s3.amazonaws.com/assets.mlh.io/events/splashes/000/000/125/thumb/hackcoverphoto_twitter.png?1419273705',
+datetime.date(2015, 2, 27), datetime.date(2015, 3, 1), '/hacker_helper/scripts/hackillinois',
+'IL', 'Urbana', '61801', 'USA', '201', 'N Goodwin Ave'), #}
+<div id="hackathons"> <h1>Hackathons</h1>
+  {% for hackathon,distance in hd %}
+
+    <li><div class="hackathons" loc="{{ hackathon[11]+","+hackathon[12]+","+hackathon[8]+","+hackathon[9]+","+hackathon[7] +","+hackathon[10]}}">{{ hackathon[1] }} <img src="{{ hackathon[2] }}"/> </div>
+    {{ distance }}
+    </li>
+  {% endfor %}
+</div>
+<div id="friends"><h1>Friends</h1>
+    <ul>
+        {% for friend in friends %}
+        <li>{{ friend }}</li>
+        {% endfor %}
+    </ul>
+
+</div>
+</ul>
+    <script>
+
+        document.addEventListener('click', function(e) {
+            $.ajax
+            ({
+                type: "POST",
+                //the url where you want to sent the userName and password to
+                url: "/get_distance",
+                data: {
+                    format: 'json'
+                },
+                async: true,
+                data: JSON.stringify(e.target.getAttribute("loc")),
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data)
+                    console.log(JSON.parse(data))
+                    alert(JSON.parse(data).rows[0].elements[0].duration.text)
+                }
+            })
+        });
+    </script>
+  </ul>
+</body>
+</html>

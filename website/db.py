@@ -57,7 +57,6 @@ def add_friend(facebook_id, friend_id):
 
 def is_friends(facebook_id,friend_id):
     id = get_hacker_from_oauth(facebook_id)["id"]
-    print "THE THING"
     print id,friend_id
     print str(id)==str(friend_id)
     if str(id)==str(friend_id):
@@ -67,6 +66,8 @@ def is_friends(facebook_id,friend_id):
         if friend["id"]==id:
             return "Friend"
     return "Not Friend"
+
+
 
 
 

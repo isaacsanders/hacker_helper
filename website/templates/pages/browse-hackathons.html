@@ -41,7 +41,7 @@
         <header id="header">
             <!--logo start-->
             <div class="brand">
-                <a href="dashboard.html" class="logo"><img id="logo" src="../../static/img/hackathon_helper_logo.png"></a>
+                <a href="/dashboard" class="logo"><img id="logo" src="../../static/img/hackathon_helper_logo.png"></a>
             </div>
             <!--logo end-->
             <!-- top bar start -->
@@ -87,7 +87,7 @@
             <div id="leftside-navigation" class="nano">
                 <ul class="nano-content">
                     <li class="sub-menu">
-                        <a href="dashboard.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                        <a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                     </li>
 {#                    <li class="sub-menu">#}
 {#                        <!-- TODO: change icon -->#}
@@ -126,13 +126,14 @@
                     </a>
                     <span class="distance">Distance: {{ hackathon.distance }}</span>
                     </br>
-                        <span>Friends going</span>
-                        <ol>
-                        {% for friend in hackathon.friends %}
-                            {{ friend }}
-
-                            {% endfor %}
+                        {% if hackathon.friends != null %}
+                            <span>Friends going</span>
+                            <ol>
+                                {% for friend in hackathon.friends %}
+                                    {{ friend }}
+                                {% endfor %}
                             </ol>
+                        {% endif %}
                 </br>
                 {% if hackathon.registered %}
                     REGISTERED

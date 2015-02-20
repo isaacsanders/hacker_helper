@@ -20,7 +20,7 @@
             <form action="/hackathons/{{ hackathon.id }}/register" method="post">
                 {% for question in hackathon.questions %}
                     {% if question.answer %}
-                        <input type="hidden" name="questions-{{ question.id }}"/>
+                        <input type="hidden" value="{{ question.answer }}" name="questions-{{ question.id }}"/>
                     {% else %}
                         <div class="form-group">
                             <label for="questions-{{ question.id }}">{{ question.question }}</label>

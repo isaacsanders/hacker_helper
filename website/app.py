@@ -294,7 +294,7 @@ def register_for_thon(hackathon_id):
     user_id = current_user()['id']
     for field in request.form:
         _, qid = field.split("-")
-        answer_questions(user_id, qid, request.form[field])
+        answer_question(user_id, qid, request.form[field])
     f = os.popen(str("python scripts/sample1.py ", hackathon_id, " ", user_id))
     return redirect(url_for("hackathon_index"))
 

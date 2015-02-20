@@ -55,10 +55,10 @@
                 <!-- toggle navigation start -->
                 <!-- search bar start -->
                 <!-- TODO: add typeahad.js? -->
-                <div id="searchbox">
-                    <input id="search-text" type="text" placeholder="Search for fellow hackers...">
-                    <button id="search-button" type="submit"><span>Search</span></button>
-                </div>
+{#                <div id="searchbox">#}
+{#                    <input id="search-text" type="text" placeholder="Search for fellow hackers...">#}
+{#                    <button id="search-button" type="submit"><span>Search</span></button>#}
+{#                </div>#}
                 <!-- search bar end -->
                 <!-- user nav start -->
                 <div class="user-nav">
@@ -73,7 +73,7 @@
                             </a>
                             <ul class="dropdown-menu animated fadeInDown">
                                 <li>
-                                    <a href="login.html"><i class="fa fa-power-off"></i> Logout</a>
+                                    <a href="/"><i class="fa fa-power-off"></i> Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -90,10 +90,10 @@
                     <li class="active">
                         <a href="/me"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                     </li>
-                    <li class="sub-menu">
-                        <!-- TODO: change icon -->
-                        <a href="friends.html"><i class="fa fa-male"></i><span>Friends</span></a>
-                    </li>
+{#                    <li class="sub-menu">#}
+{#                        <!-- TODO: change icon -->#}
+{#                        <a href="friends.html"><i class="fa fa-male"></i><span>Friends</span></a>#}
+{#                    </li>#}
                     <li class="sub-menu">
                         <a href="team-management.html"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
                     </li>
@@ -138,7 +138,7 @@
                         <div class="row">
             <div class="col-md-offset-2">
                 <div class="col-md-4">
-                    <h2>Friends</h2>
+                    <h2>Followers</h2>
                     <ul>
                         {% for friend in friends %}
                             <li><a href="/users/{{ friend.id }}">

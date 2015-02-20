@@ -41,7 +41,7 @@
         <header id="header">
             <!--logo start-->
             <div class="brand">
-                <a href="dashboard.html" class="logo"><img id="logo" src="../../static/img/hackathon_helper_logo.png"></a>
+                <a href="../dashboard.html" class="logo"><img id="logo" src="../../static/img/hackathon_helper_logo.png"></a>
             </div>
             <!--logo end-->
             <!-- top bar start -->
@@ -63,9 +63,8 @@
                 <!-- user nav start -->
                 <div class="user-nav">
                     <ul>
-                        <!-- TODO: add prof pic? -->
 {#                        <li class="profile-photo">#}
-{#                            <img src="static/img/melissa.jpg" width="30px" height="30px" alt="" class="img-circle">#}
+{#                            <img src="../../static/img/melissa.jpg" width="30px" height="30px" alt="" class="img-circle">#}
 {#                        </li>#}
                         <li class="dropdown settings">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -73,7 +72,7 @@
                             </a>
                             <ul class="dropdown-menu animated fadeInDown">
                                 <li>
-                                    <a href="login.html"><i class="fa fa-power-off"></i> Logout</a>
+                                    <a href="../login.html"><i class="fa fa-power-off"></i> Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -87,17 +86,17 @@
         <aside class="sidebar">
             <div id="leftside-navigation" class="nano">
                 <ul class="nano-content">
-                    <li class="active">
-                        <a href="/me"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                    <li class="sub-menu">
+                        <a href="../dashboard.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
                     </li>
                     <li class="sub-menu">
                         <!-- TODO: change icon -->
-                        <a href="friends.html"><i class="fa fa-male"></i><span>Friends</span></a>
+                        <a href="../friends.html"><i class="fa fa-male"></i><span>Friends</span></a>
                     </li>
                     <li class="sub-menu">
-                        <a href="team-management.html"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
+                        <a href="../team-management.html"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
                     </li>
-                    <li class="sub-menu">
+                    <li class="active">
                         <a href="/hackathons"><i class="fa fa fa-code"></i><span>Browse Hackathons</span></a>
                     </li>
                 </ul>
@@ -109,23 +108,39 @@
         <section class="main-content-wrapper">
             <section id="main-content">
                 <div class="row">
-                    <div class="col-md-4 col-md-offset-2">
-                        <h1>
-                            {{ user.name }}
-                            <small>{{ user.email }}</small>
-                        </h1>
-                    </div>
-                    {% if "Not Friend"==friend %}
-                        <button onclick="addFriend({{ user_id }})">Add Friend</button>
-                    {% endif %}
-                    <script>
-        function addFriend(uid){
-            console.log(uid);
+                    {% block body %}
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>
+                <h1>
+                    {{ hackathon.name }}
+                    <small>
+                        {{ hackathon.start_date | datetimeformat }} -
+                        {{ hackathon.end_date | datetimeformat }}
+                    </small>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
+            <br/>
+            <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
+            <br>
+            {% if not registered %}
+
+            <button onclick="registerHackathon({{ hackathon.id }})" style="color:red">Register</button>
+                <script>
+                    function registerHackathon(uid){
+                        console.log(uid);
             $.ajax
             ({
                 type: "GET",
                 //the url where you want to sent the userName and password to
-                url: "/add_friend/"+uid,
+                url: "/register/"+uid,
                 async: true,
                 contentType: "application/json",
                 success: function (data) {
@@ -133,57 +148,21 @@
                     console.log(data)
                 }
             })
-        }
-    </script>
-                        <div class="row">
-            <div class="col-md-offset-2">
-                <div class="col-md-4">
-                    <h2>Friends</h2>
-                    <ul>
-                        {% for friend in friends %}
-                            <li><a href="/users/{{ friend.id }}">
-                                {{ friend.name }}
-                            </a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h2>Hackathons</h2>
-                    <ul>
-                        {% for hackathon in hackathons_attended %}
-                            <li><a href="/hackathons/{{ hackathon.id }}">
-                                {{ hackathon.name }}
-                            </a></li>
-                        {% endfor %}
-                    </ul>
-{#                    <a href=""#}
-                </div>
-            </div>
+                    }
+
+                </script>
+            {% endif %}
+
+
+            {% if registered %}
+            You are already registered
+            {% endif %}
         </div>
-{% if teams %}
-            <div class="row">
-                <div class="col-md-offset-2">
-                    <h2>Teams</h2>
-                    {% for team in teams %}
-                        <div class="col-md-4">
-                            <a href="/teams/{{ team.id }}">
-                                <h3>{{ team.name }}</h3>
-                            </a>
-                            <ul>
-                                {% for member in team.members %}
-                                    <li>
-                                        <a href="/users/{{ member.id }}">
-                                            {{ member.name }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endfor %}
+    </div>
+{% endblock %}
                 </div>
-            </div>
-        {% endif %}
-                </div>
+
+                <!--ToDo end-->
             </section>
         </section>
         <!--main content end-->
@@ -209,3 +188,48 @@
 </body>
 
 </html>
+
+
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head lang="en">#}
+{#    <meta charset="UTF-8">#}
+{#    <title>{{ hackathon.name }}</title>#}
+{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">#}
+    {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">#}
+{#    <script src="http://code.jquery.com/jquery-latest.min.js"></script>#}
+{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>#}
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>#}
+{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-social.css') }}"/>#}
+{#</head>#}
+{#<body>#}
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col-md-8 col-md-offset-2">#}
+{#                <div class="page-header">#}
+{#                    <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>#}
+{#                    <h1>#}
+{#                        {{ hackathon.name }}#}
+{#                        <small>#}
+{#                            {{ hackathon.start_date | datetimeformat }} -#}
+{#                            {{ hackathon.end_date | datetimeformat }}#}
+{#                        </small>#}
+{#                    </h1>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="row">#}
+{#            <div class="col-md-8 col-md-offset-2">#}
+{#                <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>#}
+{#                <br/>#}
+{#                <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>#}
+{#                <button style="color:red">Register</button>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{##}
+{#    </div>#}
+{##}
+{##}
+{#</body>#}
+{#</html>#}

@@ -291,12 +291,13 @@ def answer_questions(hackathon_id):
 
 @app.route("/hackathons/<int:hackathon_id>/register", methods=["POST"])
 def register_for_thon(hackathon_id):
+    fid = facebook.get('/me').data["id"]
     user_id = current_user()['id']
     for field in request.form:
         _, qid = field.split("-")
         answer_question(user_id, qid, request.form[field])
-    print(str("python scripts/sample1.py "+str(hackathon_id)+" "+str(user_id)))
-    f = os.popen(str("python scripts/sample1.py "+str(hackathon_id)+" "+str(user_id)))
+    register_for_hackathon(hackathon_id, user_id)
+    f = os.popen(str("python scripts/sample1.py "+str(hackathon_id)+" "+str(fid)))
     return redirect(url_for("hackathon_index"))
 
 

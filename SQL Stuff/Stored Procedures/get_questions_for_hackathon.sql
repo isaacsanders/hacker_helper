@@ -14,18 +14,17 @@ CREATE OR REPLACE FUNCTION get_questions_for_hackathon( _hacker_id INTEGER, _hac
     END IF;
 
     RETURN QUERY (
-      SELECT questions.question_id
-        , questions.question
+      SELECT question.id AS question_id
+        , question.question
         , answer.answer
-      FROM
-        (
-          SELECT question.question
-            , question.id AS question_id
-          FROM question, hackathon_has_questions
-          WHERE question.id = hackathon_has_questions.question_id
-                AND hackathon_has_questions.hackathon_id = _hackathon_id) AS questions LEFT JOIN answer
-          ON questions.question_id = answer.question_id
-      WHERE answer.hacker_id = _hacker_id OR answer.hacker_id IS NULL);
+FROM hackathon_has_questions
+  JOIN question
+  ON question.id = hackathon_has_questions.question_id
+  LEFT JOIN answer
+  ON answer.question_id = question.id
+  AND (answer.hacker_id = _hacker_id
+      OR answer.hacker_id IS NULL)
+WHERE hackathon_has_questions.hackathon_id = _hackathon_id);
   END
   $$
 LANGUAGE plpgsql VOLATILE;

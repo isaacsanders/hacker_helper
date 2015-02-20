@@ -55,6 +55,13 @@ def add_friend(facebook_id, friend_id):
         conn.commit()
         return str(cur.fetchall())
 
+def get_hackathon_data(facebook_id,hackathon_id):
+    id = get_hacker_from_oauth(facebook_id)["id"]
+    print id
+    with conn.cursor() as cur:
+        cur.callproc("get_questions_for_hackathon", (int(id), int(hackathon_id)))
+        return cur.fetchall()
+
 def is_friends(facebook_id,friend_id):
     id = get_hacker_from_oauth(facebook_id)["id"]
     print id,friend_id

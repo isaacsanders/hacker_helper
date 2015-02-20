@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+ <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <form id="formthing" name="formthing">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Enter email</label>
+    <input class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Favorite subject</label>
+    <input class="form-control" id="exampleInputEmail1" placeholder="Favorite subject">
+  </div>
+        <div class="form-group">
+    <label for="exampleInputEmail1">Best Friend Name</label>
+    <input class="form-control" id="exampleInputEmail1" placeholder="Best Friend Name">
+  </div>
+        <div class="form-group">
+    <label for="exampleInputEmail1">Facebook profile</label>
+    <input class="form-control" id="exampleInputEmail1" placeholder="Facebook profile">
+  </div>
+
+</form>
+    <button onclick="DisplayFormValues()" class="btn btn-default">Submit</button>
+
+<script>
+    function DisplayFormValues()
+    {
+       var elem = document.getElementById('formthing').elements;
+        s = elem[0].value
+
+        for(var i = 1; i < elem.length; i++)
+        {
+
+                s+=","+elem[i].value;
+
+
+        }
+
+        console.log(s)
+        $.get( "log_to_file/"+s, function( data ) {
+            console.log(data)
+        });
+    }
+
+
+
+</script>
+</body>
+</html>

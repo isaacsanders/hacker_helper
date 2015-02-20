@@ -3,6 +3,10 @@ from flask_oauth import OAuth
 import requests
 import json
 
+import os
+
+import sys
+
 from db import *
 from util import process_hackathon_data
 
@@ -245,8 +249,25 @@ def create_team():
 
 @app.route("/register/<hackathon_id>")
 def register_for_thon(hackathon_id):
+    me = facebook.get('/me')
+    # print "here"
+    print type(hackathon_id)
+    r =  get_hackathon_data(str(me.data["id"]),str(hackathon_id))
+    dic = {}
+    for number,question,answer in r:
+        dic[question] = answer
+    # print "I am passing:"+ json.dumps(dic)
+
+    f = os.popen("python scripts/sample1.py "+str(hackathon_id)+" "+str(me.data["id"]))
+    return "fuck this shit"
+    return str(dic)
+
     r = register_for_hackathon(hackathon_id, facebook.get('/me').data["id"])
     return str(r)
+    to_ret = []
+    # return str(r)
+
+    return ",".join(to_ret)
 
 @app.route("/sample1")
 def sample():

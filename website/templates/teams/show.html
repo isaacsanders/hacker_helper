@@ -1,0 +1,29 @@
+{% extends "layouts/application.html" %}
+{% block title %}
+    {{ team.name }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <h1>
+                    Team {{ team.name }}
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Teammates</h2>
+            <ul>
+                {% for member in team.members %}
+                    <li><a href="/users/{{ member.id }}">{{ member.name }}</a></li>
+                {% endfor %}
+                <li><a href="/teams/{{ team.id }}/invite">Invite Friends</a></li>
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}

@@ -282,9 +282,9 @@ def create_team():
 
 @app.route("/hackathons/<int:hackathon_id>/register", methods=["GET"])
 def answer_questions(hackathon_id):
+    print(current_user(), hackathon_id)
     questions =  get_questions_for_hackathon(current_user()["id"], hackathon_id)
     hackathon = get_hackathon(hackathon_id)
-    print(questions)
     hackathon["questions"] = questions
     return render_template("hackathons/register.html", hackathon=hackathon)
 

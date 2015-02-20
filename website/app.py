@@ -65,7 +65,7 @@ def login():
 @app.route("/location")
 def location():
     # return render_template("location_entry.html")
-    return render_template("pages/location.html")
+    return render_template("pages/location.html", name=get_name())
 
 @app.route("/info")
 def info():
@@ -167,6 +167,11 @@ def import_hackathons():
     process_hackathon_data(csvfile)
     return render_template("hackathons/import.html")
 
+def get_name():
+    me = facebook.get('/me')
+    return me.data["name"]
+
+
 @app.route("/dashboard", methods=["GET"])
 def dashboard():
     me = facebook.get('/me')
@@ -199,6 +204,7 @@ def user_page(user_id):
                            , friend=friend
                            , user_id=user_id
                            , hackathons_attended=hackathons_attended
+                           , name=get_name()
                            , friends=friends)
 
 @app.route("/hackathons", methods=["GET"])
@@ -221,7 +227,7 @@ def hackathon_index():
 
 
     # return render_template("hackathons/index.html", hackathons=hackathons)
-    return render_template("pages/browse-hackathons.html", hackathons=hackathons)
+    return render_template("pages/browse-hackathons.html", hackathons=hackathons, name=get_name())
 
 @app.route("/hackathons/<int:hackathon_id>", methods=["GET"])
 def hackathon_page(hackathon_id):
@@ -232,19 +238,19 @@ def hackathon_page(hackathon_id):
     #Need to get registered here
 
     # return render_template("hackathons/show.html", hackathon=hackathon, registered=registered)
-    return render_template("pages/hackathon.html", hackathon=hackathon, registered=registered)
+    return render_template("pages/hackathon.html", hackathon=hackathon, registered=registered, name=get_name())
 
 @app.route("/teams/new", methods=["GET"])
 def new_team():
     id = current_user()['id']
     friends = get_friends(id)
-    return render_template("teams/new.html", friends=friends)
+    return render_template("teams/new.html", friends=friends, name=get_name())
 
 @app.route("/teams/<int:team_id>", methods=["GET"])
 def show_team(team_id):
     user_id = current_user()['id']
     team = get_teams(user_id, for_team=team_id)
-    return render_template("teams/show.html", team=team)
+    return render_template("teams/show.html", team=team, name=get_name())
 
 @app.route("/teams/<int:team_id>/invite", methods=["GET"])
 def invite_members_to_team(team_id):
@@ -252,7 +258,7 @@ def invite_members_to_team(team_id):
     team = get_teams(user_id, for_team=team_id)
     teammate_ids = map(lambda x: x["id"], team["members"])
     friends = filter(lambda friend: friend["id"] not in teammate_ids,get_friends(user_id))
-    return render_template("teams/invite.html", friends=friends, team=team)
+    return render_template("teams/invite.html", friends=friends, team=team, name=get_name())
 
 @app.route("/teams/<int:team_id>/invite", methods=["POST"])
 def commit_invitations_members_to_team(team_id):
@@ -268,7 +274,7 @@ def commit_invitations_members_to_team(team_id):
 @app.route("/teams", methods=["GET"])
 def team_index():
     user_id = current_user()['id']
-    return render_template("teams/index.html", teams=get_teams(user_id))
+    return render_template("teams/index.html", teams=get_teams(user_id), name=get_name())
 
 @app.route("/teams", methods=["POST"])
 def create_team():
@@ -278,7 +284,7 @@ def create_team():
     team_id = add_team(user_id, team_name)
     for member_id in member_ids:
         add_hacker_to_team(member_id, team_id)
-    return render_template("teams/index.html", teams=get_teams(user_id))
+    return render_template("teams/index.html", teams=get_teams(user_id), name=get_name())
 
 @app.route("/hackathons/<int:hackathon_id>/register", methods=["GET"])
 def answer_questions(hackathon_id):
@@ -286,7 +292,7 @@ def answer_questions(hackathon_id):
     questions =  get_questions_for_hackathon(current_user()["id"], hackathon_id)
     hackathon = get_hackathon(hackathon_id)
     hackathon["questions"] = questions
-    return render_template("hackathons/register.html", hackathon=hackathon)
+    return render_template("hackathons/register.html", hackathon=hackathon, name=get_name())
 
 
 @app.route("/hackathons/<int:hackathon_id>/register", methods=["POST"])

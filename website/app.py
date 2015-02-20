@@ -280,27 +280,24 @@ def create_team():
         add_hacker_to_team(member_id, team_id)
     return render_template("teams/index.html", teams=get_teams(user_id))
 
-@app.route("/register/<hackathon_id>")
+@app.route("/hackathons/<int:hackathon_id>/register", methods=["GET"])
+def answer_questions(hackathon_id):
+    print(current_user(), hackathon_id)
+    questions =  get_questions_for_hackathon(current_user()["id"], hackathon_id)
+    hackathon = get_hackathon(hackathon_id)
+    hackathon["questions"] = questions
+    return render_template("hackathons/register.html", hackathon=hackathon)
+
+
+@app.route("/hackathons/<int:hackathon_id>/register", methods=["POST"])
 def register_for_thon(hackathon_id):
-    me = facebook.get('/me')
-    # print "here"
-    print type(hackathon_id)
-    r =  get_hackathon_data(str(me.data["id"]),str(hackathon_id))
-    dic = {}
-    for number,question,answer in r:
-        dic[question] = answer
-    # print "I am passing:"+ json.dumps(dic)
+    user_id = current_user()['id']
+    for field in request.form:
+        _, qid = field.split("-")
+        answer_questions(user_id, qid, request.form[field])
+    f = os.popen(str("python scripts/sample1.py ", hackathon_id, " ", user_id))
+    return redirect(url_for("hackathon_index"))
 
-    f = os.popen("python scripts/sample1.py "+str(hackathon_id)+" "+str(me.data["id"]))
-    return "fuck this shit"
-    return str(dic)
-
-    r = register_for_hackathon(hackathon_id, facebook.get('/me').data["id"])
-    return str(r)
-    to_ret = []
-    # return str(r)
-
-    return ",".join(to_ret)
 
 # view helpers
 

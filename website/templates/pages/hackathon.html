@@ -129,32 +129,12 @@
             <br/>
             <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
             <br>
-            {% if not registered %}
-
-            <button onclick="registerHackathon({{ hackathon.id }})" style="color:red">Register</button>
-                <script>
-                    function registerHackathon(uid){
-                        console.log(uid);
-            $.ajax
-            ({
-                type: "GET",
-                //the url where you want to sent the userName and password to
-                url: "/register/"+uid,
-                async: true,
-                contentType: "application/json",
-                success: function (data) {
-                    console.log("gotit");
-                    console.log(data)
-                }
-            })
-                    }
-
-                </script>
-            {% endif %}
-
-
             {% if registered %}
-            You are already registered
+                                You are already registered
+            {% else %}
+                <a href="/hackathons/{{ hackathon.id }}/register">
+                    <button class="btn btn-default">Register</button>
+                </a>
             {% endif %}
         </div>
     </div>

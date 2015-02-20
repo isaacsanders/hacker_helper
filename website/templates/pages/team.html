@@ -52,13 +52,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
                 </div>
-                <!-- toggle navigation start -->
-                <!-- search bar start -->
-{#                <div id="searchbox">#}
-{#                    <input id="search-text" type="text" placeholder="Search for fellow hackers...">#}
-{#                    <button id="search-button" type="submit"><span>Search</span></button>#}
-{#                </div>#}
-                <!-- search bar end -->
                 <!-- user nav start -->
                 <div class="user-nav">
                     <ul>
@@ -93,7 +86,7 @@
 {#                        <a href="../friends.html"><i class="fa fa-male"></i><span>Friends</span></a>#}
 {#                    </li>#}
                     <li class="sub-menu">
-                        <a href="/teams"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
+                        <a href="../team-management.html"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
                     </li>
                     <li class="active">
                         <a href="/hackathons"><i class="fa fa fa-code"></i><span>Browse Hackathons</span></a>
@@ -107,38 +100,7 @@
         <section class="main-content-wrapper">
             <section id="main-content">
                 <div class="row">
-                    {% block body %}
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="page-header">
-                <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>
-                <h1>
-                    {{ hackathon.name }}
-                    <small>
-                        {{ hackathon.start_date | datetimeformat }} -
-                        {{ hackathon.end_date | datetimeformat }}
-                    </small>
-                </h1>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>
-            <br/>
-            <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>
-            <br>
-            {% if registered %}
-                                You are already registered
-            {% else %}
-                <a href="/hackathons/{{ hackathon.id }}/register">
-                    <button class="btn btn-default">Register</button>
-                </a>
-            {% endif %}
-        </div>
-    </div>
-{% endblock %}
+                    <!-- TODO: ---------------------------------------------------------PUT STUFF HERE ISSAC@------------------------------------------------------------------------------ -->
                 </div>
 
                 <!--ToDo end-->
@@ -151,64 +113,7 @@
     <!--Global JS-->
     <script src="../../static/js/jquery-1.10.2.min.js"></script>
     <script src="../../static/js/bootstrap.min.js"></script>
-    <!-- TODO: what is this for? -->
-    <!--<script src="assets/plugins/waypoints/waypoints.min.js"></script>-->
     <script src="../../static/js/application.js"></script>
-    <!--Load these page level functions-->
-    <!--<script>-->
-        <!--$(document).ready(function() {-->
-            <!--app.timer();-->
-            <!--app.map();-->
-            <!--app.weather();-->
-            <!--app.morrisPie();-->
-        <!--});-->
-    <!--</script>-->
-
 </body>
 
 </html>
-
-
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head lang="en">#}
-{#    <meta charset="UTF-8">#}
-{#    <title>{{ hackathon.name }}</title>#}
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">#}
-    {#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">#}
-{#    <script src="http://code.jquery.com/jquery-latest.min.js"></script>#}
-{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>#}
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>#}
-{#    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-social.css') }}"/>#}
-{#</head>#}
-{#<body>#}
-{#    <div class="container">#}
-{#        <div class="row">#}
-{#            <div class="col-md-8 col-md-offset-2">#}
-{#                <div class="page-header">#}
-{#                    <img src="{{ hackathon.logo_url }}" alt="{{ hackathon.name }}" class="img-thumbnail"/>#}
-{#                    <h1>#}
-{#                        {{ hackathon.name }}#}
-{#                        <small>#}
-{#                            {{ hackathon.start_date | datetimeformat }} -#}
-{#                            {{ hackathon.end_date | datetimeformat }}#}
-{#                        </small>#}
-{#                    </h1>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="row">#}
-{#            <div class="col-md-8 col-md-offset-2">#}
-{#                <a href="{{ hackathon.website }}">{{ hackathon.name }}'s website</a>#}
-{#                <br/>#}
-{#                <a href="{{ hackathon.directions_url }}">Directions to {{ hackathon.name }}</a>#}
-{#                <button style="color:red">Register</button>#}
-{#            </div>#}
-{#        </div>#}
-{##}
-{##}
-{#    </div>#}
-{##}
-{##}
-{#</body>#}
-{#</html>#}

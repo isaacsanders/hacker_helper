@@ -1,10 +1,144 @@
-{% extends "layouts/application.html" %}
-{% block title %}
-    Invite to {{ team.name }}
-{% endblock %}
+{#{% extends "layouts/application.html" %}#}
+{#{% block title %}#}
+{#    Invite to {{ team.name }}#}
+{#{% endblock %}#}
+{##}
+{#{% block body %}#}
+{#    <div class="row">#}
+{#        <div class="col-md-8 col-md-offset-2">#}
+{#            <div class="page-header">#}
+{#                <h1>Invite to {{ team.name }}</h1>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="row">#}
+{#        <div class="col-md-8 col-md-offset-2">#}
+{#            <form action="/teams/{{ team.id }}/invite" method="post">#}
+{#                <div class="form-group">#}
+{#                    <label for="members">Members</label>#}
+{#                    <select multiple class="form-control" name="members">#}
+{#                        {% for friend in friends %}#}
+{#                            <option value="{{ friend.id }}">{{ friend.name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+{#                </div>#}
+{#                <button type="submit" class="btn btn-primary">Invite</button>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#{% endblock %}#}
 
-{% block body %}
-    <div class="row">
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Invite to {{ team.name }}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- TODO: Favicon -->
+    <!--<link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">-->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <!-- Fonts from Font Awesome -->
+    <link rel="stylesheet" href="../../static/css/font-awesome.min.css">
+    <!-- CSS Animate -->
+    <link rel="stylesheet" href="../../static/css/animate.css">
+    <!-- Custom styles for this theme -->
+    <link rel="stylesheet" href="../../static/css/main.css">
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-social.css') }}"/>
+    <!-- Feature detection -->
+    <script src="../../static/js/modernizr-2.6.2.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="static/js/html5shiv.js"></script>
+    <script src="static/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="animated fadeIn">
+    <section id="container">
+        <header id="header">
+            <!--logo start-->
+            <div class="brand">
+                <a href="/dashboard" class="logo"><img id="logo" src="../../static/img/hackathon_helper_logo.png"></a>
+            </div>
+            <!--logo end-->
+            <!-- top bar start -->
+            <div id="top-bar">
+                <!-- toggle navigation start -->
+                <div class="toggle-navigation toggle-left">
+                    <button type="button" class="btn btn-default" id="toggle-left" data-toggle="tooltip" data-placement="right" title="Toggle Navigation">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+                <!-- toggle navigation start -->
+                <!-- search bar start -->
+                <!-- TODO: add typeahad.js? -->
+{#                <div id="searchbox">#}
+{#                    <input id="search-text" type="text" placeholder="Search for fellow hackers...">#}
+{#                    <button id="search-button" type="submit"><span>Search</span></button>#}
+{#                </div>#}
+                <!-- search bar end -->
+                <!-- user nav start -->
+                <div class="user-nav">
+                    <ul>
+                        <!-- TODO: add prof pic? -->
+{#                        <li class="profile-photo">#}
+{#                            <img src="static/img/melissa.jpg" width="30px" height="30px" alt="" class="img-circle">#}
+{#                        </li>#}
+                        <li class="dropdown settings">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                Melissa <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInDown">
+                                <li>
+                                    <a href="/"><i class="fa fa-power-off"></i> Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- user nav end -->
+            </div>
+            <!-- top bar end -->
+        </header>
+        <!--sidebar left start-->
+        <aside class="sidebar">
+            <div id="leftside-navigation" class="nano">
+                <ul class="nano-content">
+                    <li class="sub-menu">
+                        <a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                    </li>
+{#                    <li class="sub-menu">#}
+{#                        <!-- TODO: change icon -->#}
+{#                        <a href="friends.html"><i class="fa fa-male"></i><span>Friends</span></a>#}
+{#                    </li>#}
+                    <li class="active">
+                        <a href="/teams"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="/hackathons"><i class="fa fa fa-code"></i><span>Browse Hackathons</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </aside>
+        <!--sidebar left end-->
+        <!--main content start-->
+        <section class="main-content-wrapper">
+            <section id="main-content">
+                <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="page-header">
                 <h1>Invite to {{ team.name }}</h1>
@@ -26,4 +160,16 @@
             </form>
         </div>
     </div>
-{% endblock %}
+            </section>
+        </section>
+        <!--main content end-->
+        <!--sidebar right start-->
+        <!--sidebar right end-->
+    </section>
+    <!--Global JS-->
+    <script src="../../static/js/jquery-1.10.2.min.js"></script>
+    <script src="../../static/js/bootstrap.min.js"></script>
+    <script src="../../static/js/application.js"></script>
+</body>
+
+</html>

@@ -17,20 +17,21 @@
                     </small>
                 </h1>
             </div>
+            <form action="/hackathons/{{ hackathon.id }}/register" method="post">
+                {% for question in hackathon.questions %}
+                    {% if question.answer %}
+                        <input type="hidden" name="questions-{{ question.id }}"/>
+                    {% else %}
+                        <div class="form-group">
+                            <label for="questions-{{ question.id }}">{{ question.question }}</label>
+                            <input type="text" name="questions-{{ question.id }}" class="form-control"/>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
         </div>
     </div>
-    <form action="/hackathons/{{ hackathon.id }}/register" method="post">
-        {% for question in hackathon.questions %}
-            {% if question.answer %}
-                <input type="hidden" name="questions-{{ question.id }}"/>
-            {% else %}
-                <div class="form-group">
-                    <label for="questions-{{ question.id }}">{{ question.question }}</label>
-                    <input type="text" name="questions-{{ question.id }}" class="form-control"/>
-                </div>
-            {% endif %}
-        {% endfor %}
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+
 
 {% endblock %}

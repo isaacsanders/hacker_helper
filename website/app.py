@@ -296,7 +296,8 @@ def register_for_thon(hackathon_id):
     for field in request.form:
         _, qid = field.split("-")
         answer_question(user_id, qid, request.form[field])
-    register_for_hackathon(hackathon_id, fid)
+    # register_for_hackathon(hackathon_id, user_id)
+    print "about to make the call"
     f = os.popen(str("python scripts/sample1.py "+str(hackathon_id)+" "+str(fid)))
     return redirect(url_for("hackathon_index"))
 
@@ -311,7 +312,7 @@ def datetimeformat(value, format='%b %d, %Y'):
 
 def current_user():
     fid = facebook.get('/me').data["id"]
-    return get_hacker_from_oauth(str(fid))
+    return get_hacker_from_oauth(fid)
 
 
 if __name__ == '__main__':

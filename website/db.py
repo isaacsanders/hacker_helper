@@ -55,12 +55,17 @@ def add_friend(facebook_id, friend_id):
         conn.commit()
         return str(cur.fetchall())
 
-def get_hackathon_data(facebook_id,hackathon_id):
-    id = get_hacker_from_oauth(facebook_id)["id"]
-    print id
+def get_questions_for_hackathon(user_id, hackathon_id):
     with conn.cursor() as cur:
-        cur.callproc("get_questions_for_hackathon", (int(id), int(hackathon_id)))
-        return cur.fetchall()
+        cur.callproc("get_questions_for_hackathon", (user_id, hackathon_id))
+        questions = []
+        for (qid, q, a) in cur.fetchall():
+            questions.append({
+                "id": qid,
+                "question": q,
+                "answer": a
+            })
+        return questions
 
 def is_friends(facebook_id,friend_id):
     id = get_hacker_from_oauth(facebook_id)["id"]
@@ -190,4 +195,9 @@ def get_hacker_from_oauth(oauth_token):
 def add_hacker_to_team(member_id, team_id):
     with conn.cursor() as cur:
         cur.callproc("add_hacker_to_team", (member_id, team_id))
+        conn.commit()
+
+def answer_question(user_id, question_id, answer):
+    with conn.cursor() as cur:
+        cur.callproc("answer_question", (user_id, question_id, answer))
         conn.commit()

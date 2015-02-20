@@ -311,7 +311,7 @@ def datetimeformat(value, format='%b %d, %Y'):
 
 def current_user():
     fid = facebook.get('/me').data["id"]
-    return get_hacker_from_oauth(fid)
+    return get_hacker_from_oauth(str(fid))
 
 
 if __name__ == '__main__':

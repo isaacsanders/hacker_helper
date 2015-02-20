@@ -163,6 +163,12 @@ def import_hackathons():
     process_hackathon_data(csvfile)
     return render_template("hackathons/import.html")
 
+@app.route("/dashboard", methods=["GET"])
+def dashboard():
+    me = facebook.get('/me')
+    id = get_hacker_from_oauth(me.data["id"])["id"]
+    return user_page(id)
+
 
 @app.route("/users/<user_id>", methods=["GET"])
 def user_page(user_id):
@@ -178,13 +184,7 @@ def user_page(user_id):
 
     friend = is_friends(me.data["id"],user_id)
 
-    # return render_template("users/show.html"
-    #                        , user=user
-    #                        , friend=friend
-    #                        , user_id=user_id
-    #                        , hackathons_attended=hackathons_attended
-    #                        , friends=friends)
-    return render_template("pages/dashboard.html"
+    return render_template("users/show.html"
                            , user=user
                            , friend=friend
                            , user_id=user_id
@@ -221,8 +221,7 @@ def hackathon_page(hackathon_id):
 
     #Need to get registered here
 
-    # return render_template("hackathons/show.html", hackathon=hackathon, registered=registered)
-    return render_template("pages/hackathon.html", hackathon=hackathon, registered=registered)
+    return render_template("hackathons/show.html", hackathon=hackathon, registered=registered)
 
 @app.route("/teams/new", methods=["GET"])
 def new_team():

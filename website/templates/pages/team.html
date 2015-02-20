@@ -52,14 +52,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
                 </div>
-                <!-- toggle navigation start -->
-                <!-- search bar start -->
-                <!-- TODO: add typeahad.js? -->
-{#                <div id="searchbox">#}
-{#                    <input id="search-text" type="text" placeholder="Search for fellow hackers...">#}
-{#                    <button id="search-button" type="submit"><span>Search</span></button>#}
-{#                </div>#}
-                <!-- search bar end -->
                 <!-- user nav start -->
                 <div class="user-nav">
                     <ul>
@@ -91,10 +83,10 @@
                     </li>
 {#                    <li class="sub-menu">#}
 {#                        <!-- TODO: change icon -->#}
-{#                        <a href=".html"><i class="fa fa-male"></i><span>Friends</span></a>#}
+{#                        <a href="../friends.html"><i class="fa fa-male"></i><span>Friends</span></a>#}
 {#                    </li>#}
                     <li class="sub-menu">
-                        <a href="/teams"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
+                        <a href="../team-management.html"><i class="fa fa-comments-o"></i><span>Team Management</span></a>
                     </li>
                     <li class="active">
                         <a href="/hackathons"><i class="fa fa fa-code"></i><span>Browse Hackathons</span></a>
@@ -108,41 +100,7 @@
         <section class="main-content-wrapper">
             <section id="main-content">
                 <div class="row">
-                    {% for hackathon in hackathons %}
-                <div class="col-md-4">
-                    <img src="{{ hackathon.cover_image_url }}" class="img-responsive"/>
-                    <a href="/hackathons/{{ hackathon.id }}">
-                        <img src="{{ hackathon.logo_url }}" class="img-thumbnail"/>
-                        <h2>
-                            {{ hackathon.name }}
-                            <small>
-                                {{ hackathon.start_date | datetimeformat }} -
-                                {{ hackathon.end_date | datetimeformat }}
-                            </small>
-                            <br>
-
-                        </h2>
-
-                    </a>
-                    <span class="distance">Distance: {{ hackathon.distance }}</span>
-                    </br>
-                        {% if hackathon.friends != null %}
-                            <span>Friends going</span>
-                            <ol>
-                                {% for friend in hackathon.friends %}
-                                    {{ friend }}
-                                {% endfor %}
-                            </ol>
-                        {% endif %}
-                </br>
-                {% if hackathon.registered %}
-                    REGISTERED
-                {% endif %}
-                {% if not hackathon.registered %}
-                    NOT REGISTERED
-                {% endif %}
-                </div>
-            {% endfor %}
+                    <!-- TODO: ---------------------------------------------------------PUT STUFF HERE ISSAC@------------------------------------------------------------------------------ -->
                 </div>
 
                 <!--ToDo end-->
@@ -155,19 +113,7 @@
     <!--Global JS-->
     <script src="../../static/js/jquery-1.10.2.min.js"></script>
     <script src="../../static/js/bootstrap.min.js"></script>
-    <!-- TODO: what is this for? -->
-    <!--<script src="assets/plugins/waypoints/waypoints.min.js"></script>-->
     <script src="../../static/js/application.js"></script>
-    <!--Load these page level functions-->
-    <!--<script>-->
-        <!--$(document).ready(function() {-->
-            <!--app.timer();-->
-            <!--app.map();-->
-            <!--app.weather();-->
-            <!--app.morrisPie();-->
-        <!--});-->
-    <!--</script>-->
-
 </body>
 
 </html>
